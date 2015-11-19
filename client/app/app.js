@@ -1,7 +1,7 @@
 angular.module('app', [
   'app.facebook',
   'app.home',
-  'app.map',
+  'app.room',
   'app.maker',
   'app.services',
   'ngRoute',
@@ -21,13 +21,13 @@ angular.module('app', [
       templateUrl: 'app/facebook/facebook.html',
       controller: 'FacebookController'
     })
-    .when('/map', {
-      templateUrl: 'app/map/map.html',
-      controller: 'MapController'
+    .when('/room', {
+      templateUrl: 'app/room/room.html',
+      controller: 'RoomController'
     })
-    .when('/mapMaker', {
-      templateUrl: 'app/mapMaker/mapMaker.html',
-      controller: 'MapMakerController'
+    .when('/roomMaker', {
+      templateUrl: 'app/roomMaker/roomMaker.html',
+      controller: 'RoomMakerController'
     })
     .when('/logout', {
       redirectTo: '/home'

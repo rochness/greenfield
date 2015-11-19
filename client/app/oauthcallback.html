@@ -2,11 +2,11 @@
   <body>
     <script>
       var opener = window.opener;
-      if(typeof opener !== "undefined" && opener !== null) {
+      if (typeof opener !== "undefined" && opener !== null) {
           var body;
-          body        = opener.document.querySelectorAll('body');
-          $body       = opener.angular.element(body);
-          rootScope   = $body.scope();
+          body = opener.document.querySelectorAll('body');
+          $body = opener.angular.element(body);
+          rootScope = $body.scope();
 
           rootScope.$broadcast('ngOpenFB:loadend', window.location.href);
           window.close();
