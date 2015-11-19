@@ -1,22 +1,21 @@
-angular.module('app.map', ['ngOpenFB'])
-
-.controller('MapController', ['$scope', '$openFB', '$interval', 'ClientHelper', function ($scope, $openFB, $interval, ClientHelper) {
+angular.module('app.room', ['ngOpenFB'])
+.controller('RoomController', ['$scope', '$openFB', '$interval', 'UserHelper', function ($scope, $openFB, $interval, UserHelper) {
   // methods to be used inside map.html
   $scope.user = {};
-  $scope.user.id = ClientHelper.storage[0].id;
-  $scope.user.userName = ClientHelper.storage[0].name;
-  $scope.user.userPic = ClientHelper.storage[0].picture;
+  $scope.user.id = UserHelper.users[0].id;
+  $scope.user.userName = UserHelper.users[0].name;
+  $scope.user.userPic = UserHelper.users[0].picture;
   $scope.user.latitude = '';
   $scope.user.longitude = '';
 
-  $scope.mapName = "";
+  $scope.roomName = "";
 
-  $scope.tempDataStore;
+  $scope.userDataStore;
   $scope.intervalFunc;
 
   socket.on('serverData', function (data) {
-    $scope.tempDataStore = data;
-  })
+    $scope.userDataStore = data;
+  });
 
   $scope.locationCheck = function () {
     if (navigator.geolocation) {
@@ -28,14 +27,12 @@ angular.module('app.map', ['ngOpenFB'])
     var startPos;
     var geoSuccess = function (position) {
       startPos = position;
-
       $scope.user.latitude = startPos.coords.latitude;
       $scope.user.longitude = startPos.coords.longitude;
-
       socket.emit('userData', $scope.user);
     };
     navigator.geolocation.getCurrentPosition(geoSuccess);
-  }
+  };
   $scope.locationCheck();
 
   $scope.logOut = function (fb) {
@@ -44,11 +41,11 @@ angular.module('app.map', ['ngOpenFB'])
     if (fb) {
       $openFB.logout();
     }
-  }
+  };
 
-  $scope.init = function (){
-    $scope.mapName = ClientHelper.storage2[0];
-    socket.emit('init', ClientHelper.storage2[0]);
+  $scope.init = function () {
+    $scope.roomName = UserHelper.rooms[0];
+    socket.emit('init', UserHelper.rooms[0]);
     $scope.intervalFunc = $interval($scope.locationCheck, 3000);
-  }
+  };
 }]);

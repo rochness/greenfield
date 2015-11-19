@@ -1,22 +1,22 @@
 angular.module('app.services', [])
 
-.factory('ClientHelper', function ($http){
-  var storage = [];
-  var storage2 = [];
+.factory('UserHelper', function ($http){
+  var users = [];
+  var rooms = [];
 
   var getFBdata = function (val) {
-    storage.push(val);
+    users.push(val);
   };
 
-  var getMap = function (val) {
-    storage2[0] = val;
-  }
+  var getRoom = function (val) {
+    rooms[0] = val;
+  };
 
   return {
-    storage : storage,
-    storage2 : storage2,
+    users : users,
+    rooms : rooms,
     getFBdata : getFBdata,
-    getMap : getMap
-  }
+    getRoom : getRoom
+  };
 
 });
