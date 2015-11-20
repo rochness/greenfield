@@ -1,6 +1,13 @@
 var express = require('express');
 var app = express();
 var port = process.env.PORT || 8000;
+var bodyParser = require('body-parser');
+
+// foursquare setup
+var client_id = 'A5JM0WSUSW01TCZ35IA3NFNE211T5OQLUO5ZOSBKZAVSXN0B';
+var client_secret = 'A1TTNAAWPGCPIWTXI1F0VSQBUB5PZ5RDR0VP2WVMJC3JVSXZ';
+var foursquare = require('foursquarevenues')(client_id, client_secret);
+var API = require('./api-handler');
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -12,6 +19,8 @@ app.all("/*", function (req, res, next) {
   return next();
 });
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/../client'));
 
 server.listen(port);
@@ -20,6 +29,26 @@ var storage = {};
 
 app.get('/google53b80a8d8629a34b.html', function (req, res) {
   res.sendFile('/../client/app/google/google53b80a8d8629a34b.html');
+});
+
+app.post('/api/search', function (req, res, next) {
+
+  // building options for our initial api query
+  var options = {};
+  options.query = req.body.query;
+  options.ll = req.body.location.join(', ');
+
+  // defining what we want to filter and sort by
+  var rating = req.body.rating;
+  var price = req.body.price;
+
+  foursquare.exploreVenues(options, function(err, data) {
+    if (err) return res.status(400).send(err);
+
+    // sending back a filtered + sorted list of venues
+    res.status(200).send({ results: API.processResults(req, data, price, rating) });
+  });
+
 });
 
 var getMidPoint = function (users) {
