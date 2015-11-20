@@ -1,4 +1,4 @@
-angular.module('app.maker', ['ngOpenFB'])
+angular.module('app.joiner', ['ngOpenFB'])
 .controller('RoomJoinerController', ['$scope','$openFB','$location', 'UserHelper', function ($scope, $openFB, $location, UserHelper) {
   $scope.roomName = '';
 

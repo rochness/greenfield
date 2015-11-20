@@ -3,6 +3,7 @@ angular.module('app', [
   'app.home',
   'app.room',
   'app.maker',
+  'app.joiner',
   'app.services',
   'ngRoute',
   'ngMap'
@@ -28,6 +29,10 @@ angular.module('app', [
     .when('/roomMaker', {
       templateUrl: 'app/roomMaker/roomMaker.html',
       controller: 'RoomMakerController'
+    })
+    .when('/roomJoiner', {
+      templateUrl: 'app/roomJoiner/roomJoiner.html',
+      controller: 'RoomJoinerController'
     })
     .when('/logout', {
       redirectTo: '/home'
