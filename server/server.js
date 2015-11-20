@@ -47,6 +47,8 @@ server.listen(port);
 
 var storage = {};
 
+io.set('transports', ['xhr-polling']);
+io.set('polling duration', 10);
 io.on('connection', function (socket) {
   socket.on('init', function (room) {
     socket.join('/' + room);
