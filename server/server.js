@@ -66,13 +66,12 @@ var getMidPoint = function (users) {
 io.on('connection', function (socket) {
   socket.on('init', function (room) {
     socket.join('/' + room);
-    storage[room] = {
-      users: {},
-      midPoint: []
-    };
+    storage[room] = {};
+    
     socket.on('userData', function (user) {
-      storage[room][users][user.id] = user;
-      storage[room][midPoint] = getMidPoint(storage[room][users]);
+      storage[room]['users'][user.id] = user;
+      storage[room]['midPoint'] = getMidPoint(storage[room].users);
+      console.log('room object: ', room);
       socket.emit('serverData', storage[room]);
     });
     socket.on('logout', function (userId) {
