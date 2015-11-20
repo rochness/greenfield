@@ -10,11 +10,11 @@ angular.module('app.room', ['ngOpenFB'])
 
   $scope.roomName = "";
 
-  $scope.userDataStore;
+  $scope.roomDetails;
   $scope.intervalFunc;
 
-  socket.on('serverData', function (data) {
-    $scope.userDataStore = data;
+  socket.on('serverData', function (roomInfo) {
+    $scope.roomDetails = roomInfo;
   });
 
   $scope.locationCheck = function () {
