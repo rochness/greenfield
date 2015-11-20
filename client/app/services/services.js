@@ -3,7 +3,8 @@ angular.module('app.services', [])
 .factory('UserHelper', function ($http){
   var users = [];
   var rooms = [];
-  var isCreator = false;
+  var venues = [];
+  var roomData [];
 
   var getFBdata = function (val) {
     users.push(val);
@@ -13,19 +14,23 @@ angular.module('app.services', [])
     rooms[0] = val;
   };
 
-  var getLocations = function (location, preferences) {
-    
+  var getRoomData = function (socketResponse) {
+    roomData = socketResponse;
+  }
 
+  var getVenues = function (foursquareLocations) {
+    venues = foursquareLocations;
   };
-
 
   return {
     users : users,
     rooms : rooms,
+    venues : venues,
+    roomData : roomData,
     getFBdata : getFBdata,
     getRoom : getRoom,
-    getLocations: getLocations,
-    isCreator: isCreator
+    getRoomData : getRoomData,
+    getVenues: getVenues
   };
 
 });
