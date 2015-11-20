@@ -22,16 +22,33 @@ app.get('/google53b80a8d8629a34b.html', function (req, res) {
   res.sendFile('/../client/app/google/google53b80a8d8629a34b.html');
 });
 
+var getMidPoint = function (users) {
+  var longSum = 0;
+  var latSum = 0;
+  var totalUsers = 0;
+  for(var user in users) {
+    longSum += user.longitude;
+    latSum += user.latitude;
+    totalUsers++;
+  }
+  return [latSum / totalUsers, longSum / totalUsers];
+};
+
 io.on('connection', function (socket) {
   socket.on('init', function (room) {
     socket.join('/' + room);
-    storage[room] = {};
+    storage[room] = {
+      users: {},
+      midPoint: []
+    };
     socket.on('userData', function (user) {
-      storage[room][user.id] = user;
+      storage[room][users][user.id] = user;
+      storage[room][midPoint] = getMidPoint(storage[room][users]);
       socket.emit('serverData', storage[room]);
     });
-    socket.on('logout', function (user) {
-      delete storage[room][user];
+    socket.on('logout', function (userId) {
+      delete storage[room][users][userId];
+      storage[room][midPoint] = getMidPoint(storage[room][users]);
       socket.leave('/' + room);
       socket.emit('serverData', storage[room]);
     });

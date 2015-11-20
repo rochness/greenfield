@@ -12,11 +12,17 @@ angular.module('app.services', [])
     rooms[0] = val;
   };
 
+  var getLocations = function (location, preferences) {
+    
+
+  };
+
   return {
     users : users,
     rooms : rooms,
     getFBdata : getFBdata,
-    getRoom : getRoom
+    getRoom : getRoom,
+    getLocations: getLocations
   };
 
 });
