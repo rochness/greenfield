@@ -7,7 +7,6 @@ angular.module('app.services', [])
 
   var getFBdata = function (val) {
     users.push(val);
-    console.log('fb user date: ', val);
   };
 
   var getRoom = function (val) {

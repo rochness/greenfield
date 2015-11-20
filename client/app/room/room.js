@@ -16,7 +16,6 @@ angular.module('app.room', ['ngOpenFB'])
 
   socket.on('serverData', function (roomInfo) {
     $scope.roomDetails = roomInfo;
-    console.log('roomdetails', $scope.roomDetails);
   });
 
   $scope.locationCheck = function () {
@@ -35,7 +34,6 @@ angular.module('app.room', ['ngOpenFB'])
     };
     navigator.geolocation.getCurrentPosition(geoSuccess);
 
-    console.log('user stored in room.js: ', $scope.user);
   };
   $scope.locationCheck();
 
