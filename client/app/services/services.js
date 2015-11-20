@@ -3,6 +3,7 @@ angular.module('app.services', [])
 .factory('UserHelper', function ($http){
   var users = [];
   var rooms = [];
+  var isCreator = false;
 
   var getFBdata = function (val) {
     users.push(val);
@@ -17,12 +18,14 @@ angular.module('app.services', [])
 
   };
 
+
   return {
     users : users,
     rooms : rooms,
     getFBdata : getFBdata,
     getRoom : getRoom,
-    getLocations: getLocations
+    getLocations: getLocations,
+    isCreator: isCreator
   };
 
 });
