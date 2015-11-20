@@ -18,6 +18,10 @@ server.listen(port);
 
 var storage = {};
 
+app.get('/google53b80a8d8629a34b.html', function (req, res) {
+  res.sendFile('/../client/app/google/google53b80a8d8629a34b.html');
+});
+
 io.on('connection', function (socket) {
   socket.on('init', function (room) {
     socket.join('/' + room);
