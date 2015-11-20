@@ -14,41 +14,10 @@ app.all("/*", function (req, res, next) {
 
 app.use(express.static(__dirname + '/../client'));
 
-var yelp = require("node-yelp");
-var keys = require("../keys.js");
-
-var yelpClient = yelp.createClient({
-  oauth: {
-    consumer_key: keys.yelp.consumer_key,
-    consumer_secret: keys.yelp.consumer_secret,
-    token: keys.yelp.token,
-    token_secret: keys.yelp.token_secret
-  }
-});
-
-app.get('/api/yelp', function(req, res, next) {
-
-  var options = {};
-  options.term = req.body.term;
-  options.ll = req.body.location.join(", ");
-  options.is_closed = "false";
-
-  yelpClient.search(options)
-  .then(function(results) {
-    res.status(200).json({results: results});
-  })
-  .catch(function(err) {
-    res.status(400).send(err);
-  })
-
-})
-
 server.listen(port);
 
 var storage = {};
 
-io.set('transports', ['xhr-polling']);
-io.set('polling duration', 10);
 io.on('connection', function (socket) {
   socket.on('init', function (room) {
     socket.join('/' + room);
