@@ -3,8 +3,8 @@ angular.module('app.maker', ['ngOpenFB'])
   $scope.roomName = '';
 
   $scope.setup = function () {
-    console.log($scope.roomName);
     UserHelper.getRoom($scope.roomName);
+    UserHelper.isCreator = true;
     $location.path('/room');
   };
 

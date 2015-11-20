@@ -1,0 +1,13 @@
+<div id='roomJoiner'>
+  <div class='navbar col-md-4 col-sm-4 col-xs-6 col-md-offset-4 col-sm-offset-4 col-xs-offset-6' >
+    <div class='nav'>
+      <li><a ng-click='logout()' href='#/logout' class='logout'>Logout</a></li>
+    </div>
+    <form name='roomJoin' ng-submit='setRoom()' class='col-md-12' novalidate>
+      <input name='roomName' type='string'
+        ng-model='roomName' class='col-md-10'
+        placeholder='Enter the room code' required />
+      <button type='submit' value='Joiner' class='col-md-2'>GO</button>
+    </form>
+  </div>
+</div>

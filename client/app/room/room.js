@@ -7,9 +7,10 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.user.userPic = UserHelper.users[0].picture;
   $scope.user.latitude = '';
   $scope.user.longitude = '';
+  $scope.user.isCreator = UserHelper.isCreator;
 
+  $scope.locations = [];
   $scope.roomName = "";
-
   $scope.roomDetails;
   $scope.intervalFunc;
 
@@ -32,6 +33,7 @@ angular.module('app.room', ['ngOpenFB'])
       socket.emit('userData', $scope.user);
     };
     navigator.geolocation.getCurrentPosition(geoSuccess);
+
   };
   $scope.locationCheck();
 

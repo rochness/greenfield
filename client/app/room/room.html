@@ -11,7 +11,7 @@
   <div class = 'col-md-12 col-sm-12 col-xs-12'>
   <h4>Room: {{roomName}}</h4>
     <ng-map class='room' default-style='true' center='current-location' zoom='14'>
-      <marker ng-repeat='user in userDataStore' position='{{user.latitude}},{{user.longitude}}'
+      <marker ng-repeat='user in roomDetails.users' position='{{user.latitude}},{{user.longitude}}'
         class='mark' icon = {{user.userPic}}>
       </marker>
     </ng-map>
