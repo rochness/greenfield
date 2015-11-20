@@ -3,3 +3,4 @@ bower_components
 client/dist/*.js
 keys.js
 client/lib
+client/.DS_Store
