@@ -52,6 +52,22 @@ You should use Postman to practice making requests to our server to see how this
 // results will look something like:
 { results: [an array of places you should totally eat at...] };
 ```
+### Reading Data
+
+The array of restaurants you get back contains a lot of data.
+
+```
+{ results: [restaurant1, restaurant2, restaurant3, ...] }
+```
+
+Here's a quick list on properties you can access for any given restaurant:
+
+```
+// var sampleRestaurant = results[0] -- first restaurant in the array
+
+sampleRestaurant.venue.price.tier // a value between 1 and 4, inclusive
+sampleRestaurant.venue.rating // a value between 0 and 10
+sampleRestaurant.venue // all other properties you'd want (name, address, price, rating, etc)
 
 
 
