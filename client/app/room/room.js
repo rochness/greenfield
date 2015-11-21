@@ -46,7 +46,9 @@ angular.module('app.room', ['ngOpenFB'])
   };
 
   $scope.init = function () {
+
     // $scope.roomName = UserHelper.rooms[0];
+
     socket.emit('init', UserHelper.rooms[0]);
     $scope.intervalFunc = $interval($scope.locationCheck, 3000);
   };
@@ -64,6 +66,7 @@ angular.module('app.room', ['ngOpenFB'])
       UserHelper.getVenues($scope.places);
     });
   };
+
 
   $scope.$on('mapInitialized', function (event, map) {
     $scope.map = map;

@@ -67,6 +67,7 @@ var getMidPoint = function (users) {
 io.on('connection', function (socket) {
   socket.on('init', function (room) {
     socket.join('/' + room);
+    console.log('joined room: ', room);
     if(!storage[room]) {
       storage[room] = {
         users: {},
@@ -82,11 +83,15 @@ io.on('connection', function (socket) {
         storage[room]['users'][user.id] = user;
         storage[room]['midPoint'] = getMidPoint(storage[room].users);
         socket.emit('serverData', storage[room]);
+        console.log('room object : ', storage[room]);
       }
     });
 
     socket.on('logout', function (userId) {
-      delete storage[room][users][userId];
+      delete storage[room]['users'][userId];
+      if(storage[room]['users'] === {}){
+        delete storage[room];
+      }
       storage[room][midPoint] = getMidPoint(storage[room][users]);
       socket.leave('/' + room);
       socket.emit('serverData', storage[room]);
