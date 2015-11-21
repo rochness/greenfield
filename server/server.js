@@ -55,6 +55,11 @@ var getMidPoint = function (users) {
   var longSum = 0;
   var latSum = 0;
   var totalUsers = 0;
+
+  if(users === {}){
+    return [];
+  }
+
   for(var user in users) {
     longSum += users[user].longitude;
     latSum += users[user].latitude;
@@ -66,6 +71,7 @@ var getMidPoint = function (users) {
 
 io.on('connection', function (socket) {
   socket.on('init', function (room) {
+    console.log('init got called');
     socket.join('/' + room);
     console.log('joined room: ', room);
     if(!storage[room]) {
@@ -75,6 +81,8 @@ io.on('connection', function (socket) {
       };
     }
 
+    console.log('storage on entering room: ', storage);
+
     socket.on('userData', function (user) {
       if(!user) {
         console.log('user is undefined');
@@ -83,16 +91,19 @@ io.on('connection', function (socket) {
         storage[room]['users'][user.id] = user;
         storage[room]['midPoint'] = getMidPoint(storage[room].users);
         socket.emit('serverData', storage[room]);
-        console.log('room object : ', storage[room]);
+        // console.log('room object : ', storage[room]);
       }
     });
 
     socket.on('logout', function (userId) {
-      delete storage[room]['users'][userId];
-      if(storage[room]['users'] === {}){
+      console.log('storage on logout: ', storage);
+      delete storage[room].users[userId];
+      //update midPoint when user leave a room
+      if(Object.keys(storage[room]['users']).length !== 0) {
+        storage[room][midPoint] = getMidPoint(storage[room].users);
+      } else {
         delete storage[room];
       }
-      storage[room][midPoint] = getMidPoint(storage[room][users]);
       socket.leave('/' + room);
       socket.emit('serverData', storage[room]);
     });
