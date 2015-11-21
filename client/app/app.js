@@ -5,6 +5,7 @@ angular.module('app', [
   'app.maker',
   'app.joiner',
   'app.services',
+  '720kb.tooltips',
   'ngRoute',
   'ngMap'
 ])

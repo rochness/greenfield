@@ -14,6 +14,9 @@
       <marker ng-repeat='user in roomDetails.users' position='{{user.latitude}},{{user.longitude}}'
         class='mark' icon = {{user.userPic}}>
       </marker>
+       <marker ng-repeat='venue in UserHelper.venues.slice(0,3)' position='{{venue.location.lat}},{{venue.location.lng}}'
+        class='mark'>
+      </marker>
     </ng-map>
   </div>
 
