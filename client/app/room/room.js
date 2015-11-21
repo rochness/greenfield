@@ -65,5 +65,24 @@ angular.module('app.room', ['ngOpenFB'])
     });
   };
 
+  $scope.$on('mapInitialized', function (event, map) {
+    $scope.map = map;
+  });
+
+  $scope.showInfoWindow = function (event, place) {
+    var infowindow = new google.maps.InfoWindow();
+    var center = new google.maps.LatLng(place.venue.location.lat, place.venue.location.lng);
+
+    infowindow.setContent(
+       '<h5 class="name">' + place.venue.name + '</h5>' +
+       '<h6 class="rating">' + place.venue.rating + '</h6>' +
+       '<p class="address">' + place.venue.location.address + '</p>' +
+       '<p class="phone">' + place.venue.contact.formattedPhone + '</p>' +
+       '<p class="link">' + place.venue.url + '</p>');
+
+    infowindow.setPosition(center);
+    infowindow.open($scope.map);
+  };
+
 }]);
 
