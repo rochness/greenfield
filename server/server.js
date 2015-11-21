@@ -56,10 +56,12 @@ var getMidPoint = function (users) {
   var latSum = 0;
   var totalUsers = 0;
   for(var user in users) {
-    longSum += user.longitude;
-    latSum += user.latitude;
+    console.log('object type of longitude: ', users);
+    longSum += users[user].longitude;
+    latSum += users[user].latitude;
     totalUsers++;
   }
+
   return [latSum / totalUsers, longSum / totalUsers];
 };
 

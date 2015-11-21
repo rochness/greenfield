@@ -20,6 +20,7 @@
     "load-grunt-tasks": "^3.3.0"
   },
   "dependencies": {
+    "angular-tooltips": "^0.1.25",
     "body-parser": "^1.14.1",
     "bower": "1.6.5",
     "express": "^4.4.5",
