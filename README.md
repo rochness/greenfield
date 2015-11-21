@@ -33,6 +33,27 @@ From within the root directory:
 ```sh
 npm install
 ```
+### Sample API Requests
+
+Our app utilizes the Foursquare API to find nearby restaurants, bars, and coffeeshops.
+You should use Postman to practice making requests to our server to see how this works.
+
+```
+// POST request to localhost:8000/api/search (**using Postman**)
+
+// params body (inserted as raw data):
+{ 
+  "query": "food", 
+  "location": [37.780542, -122.412300], 
+  "rating": 8, 
+  "price": 1 
+};
+
+// results will look something like:
+{ results: [an array of places you should totally eat at...] };
+```
+
+
 
 ### Roadmap
 
