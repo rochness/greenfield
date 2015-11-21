@@ -5,6 +5,7 @@ angular.module('app.services', [])
   var rooms = [];
   var venues = [];
   var roomData = [];
+  var roomDetails;
 
   var getFBdata = function (val) {
     users.push(val);
@@ -16,7 +17,7 @@ angular.module('app.services', [])
 
   var getRoomData = function (socketResponse) {
     roomData = socketResponse;
-  }
+  };
 
   var getVenues = function (foursquareLocations) {
     venues = foursquareLocations;
@@ -28,20 +29,19 @@ angular.module('app.services', [])
         url: '/api/search',
         data: prefs
       }).then(function (resp) {
-          // $scope.places = resp.results;
-          // getVenues($scope.places);
-          return resp.results;
-          console.log('IN promise');
+          return resp.data.results;
         }).catch(function (err) {
-          console.log('ERRRRR');
           console.error(err);
         });
     };
 
-    var roomDetails;
-    socket.on('serverData', function (roomInfo) {
-        roomDetails = roomInfo;
-    });
+  socket.on('serverData', function (roomInfo) {
+    roomDetails = roomInfo;
+  });
+
+  var getRoomDetails = function () {
+    return roomDetails;
+  };
 
   return {
     users : users,
@@ -53,7 +53,7 @@ angular.module('app.services', [])
     getRoomData : getRoomData,
     getVenues : getVenues,
     sendPrefs : sendPrefs,
-    roomDetails : roomDetails
+    getRoomDetails : getRoomDetails
   };
 
 });

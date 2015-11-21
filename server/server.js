@@ -74,7 +74,7 @@ io.on('connection', function (socket) {
         midPoint: []
       };
     }
-    
+
     socket.on('userData', function (user) {
       if(!user) {
         console.log('user is undefined');
@@ -83,6 +83,7 @@ io.on('connection', function (socket) {
         storage[room]['users'][user.id] = user;
         storage[room]['midPoint'] = getMidPoint(storage[room].users);
         socket.emit('serverData', storage[room]);
+        console.log(storage[room]);
       }
     });
 

@@ -55,11 +55,13 @@ angular.module('app.room', ['ngOpenFB'])
 
   $scope.prefs = {};
   $scope.send = function () {
-    $scope.prefs.location = UserHelper.roomDetails.midPoint;
-    console.log("PREFS ", $scope.prefs)
+    var roomDetails = UserHelper.getRoomDetails();
+    $scope.prefs.location = roomDetails.midPoint;
+    $scope.prefs.rating = parseFloat($scope.prefs.rating).toFixed(1);
     UserHelper.sendPrefs($scope.prefs)
-    .then(function(businesses) {
-      console.log(businesses);
+    .then(function (businesses) {
+      $scope.places = businesses;
+      UserHelper.getVenues($scope.places);
     });
   };
 
