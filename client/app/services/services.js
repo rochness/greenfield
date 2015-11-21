@@ -21,6 +21,7 @@ angular.module('app.services', [])
 
   var getVenues = function (foursquareLocations) {
     venues = foursquareLocations;
+    console.log(venues);
   };
 
   var sendPrefs = function (prefs) {

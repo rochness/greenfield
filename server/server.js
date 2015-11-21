@@ -56,7 +56,6 @@ var getMidPoint = function (users) {
   var latSum = 0;
   var totalUsers = 0;
   for(var user in users) {
-    console.log('object type of longitude: ', users);
     longSum += users[user].longitude;
     latSum += users[user].latitude;
     totalUsers++;
@@ -83,7 +82,6 @@ io.on('connection', function (socket) {
         storage[room]['users'][user.id] = user;
         storage[room]['midPoint'] = getMidPoint(storage[room].users);
         socket.emit('serverData', storage[room]);
-        console.log(storage[room]);
       }
     });
 
