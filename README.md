@@ -68,7 +68,7 @@ Here's a quick list on properties you can access for any given restaurant:
 sampleRestaurant.venue.price.tier // a value between 1 and 4, inclusive
 sampleRestaurant.venue.rating // a value between 0 and 10
 sampleRestaurant.venue // all other properties you'd want (name, address, price, rating, etc)
-
+```
 
 
 ### Roadmap
