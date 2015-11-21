@@ -4,7 +4,7 @@ angular.module('app.services', [])
   var users = [];
   var rooms = [];
   var venues = [];
-  var roomData [];
+  var roomData = [];
 
   var getFBdata = function (val) {
     users.push(val);
