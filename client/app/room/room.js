@@ -11,7 +11,7 @@ angular.module('app.room', ['ngOpenFB'])
 
   $scope.locations = [];
   $scope.roomName = "";
-  $scope.roomDetails;
+
   $scope.intervalFunc;
 
   socket.on('serverData', function (roomInfo) {
@@ -50,4 +50,18 @@ angular.module('app.room', ['ngOpenFB'])
     socket.emit('init', UserHelper.rooms[0]);
     $scope.intervalFunc = $interval($scope.locationCheck, 3000);
   };
+}])
+.controller('preferenceController', ['$scope', 'UserHelper', function ($scope, UserHelper) {
+
+  $scope.prefs = {};
+  $scope.send = function () {
+    $scope.prefs.location = UserHelper.roomDetails.midPoint;
+    console.log("PREFS ", $scope.prefs)
+    UserHelper.sendPrefs($scope.prefs)
+    .then(function(businesses) {
+      console.log(businesses);
+    });
+  };
+
 }]);
+
