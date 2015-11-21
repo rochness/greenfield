@@ -1,14 +1,11 @@
 
-<div ng-init='init()'>
-  <div id='main'>
-    <div class='navbar col-md-4 col-sm-4 col-xs-6 col-md-offset-4 col-sm-offset-4 col-xs-offset-6'>
-      <ul class='nav'>
-        <li><a href='#/facebook' class='index' ng-click='logOut()'>Home</a></li>
-        <li><a href='#/logout' class='create' ng-click='logOut(true)'>Logout</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class = 'col-md-12 col-sm-12 col-xs-12'>
+<div class="container" ng-init='init()' ng-controller="preferenceController">
+  <ul class="nav nav-pills right">
+    <li role="presentation" class="active"><a href='#/facebook' ng-click='logOut()'>Home</a></li>
+    <li role="presentation"><a href='#/logout' ng-click='logOut(true)'>Logout</a></li>
+  </ul>
+
+  <div class = 'col-md-5 col-md-offset-1'>
   <h4>Room: {{roomName}}</h4>
     <ng-map class='room' default-style='true' center='current-location' zoom='14'>
       <marker ng-repeat='user in roomDetails.users' position='{{user.latitude}},{{user.longitude}}'
@@ -18,6 +15,58 @@
         class='mark'>
       </marker>
     </ng-map>
+  </div>
+
+  <div class="col-md-5">
+    <h2>Preferences</h2>
+    <div class="col-md-5" style="float:left">
+      <form ng-submit="send()">
+        <label>Place</label>
+        <div class="radio">
+          <label>
+            <input ng-model='prefs.query' name="query" type="radio" value="bar"> Bar
+          </label>
+        </div>
+        <div class="radio disabled">
+          <label>
+            <input ng-model='prefs.query' name="query" type="radio" value="coffee"> Coffee
+          </label>
+        </div>
+        <div class="radio disabled">
+          <label>
+            <input ng-model='prefs.query' name="query" type="radio" value="food"> Restaurant
+          </label>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Everyone's Here!</button>
+      </form>
+    </div>
+
+    <div class="col-md-6 col-md-offset-1" style="float:left">
+      <label>Price</label>
+      <select ng-model='prefs.price' class="form-control">
+        <option value="1">$</option>
+        <option value="2">$$</option>
+        <option value="3">$$$</option>
+        <option value="4">$$$$</option>
+      </select>
+    </div>
+
+    <div class="col-md-6 col-md-offset-1" style="float:left">
+      <br>
+      <label for="points">Rating: <output id="rangevalue">5</output></label>
+      <input ng-model='prefs.rating' type="range" name="rating" id="rating" value="5.0" min="0.0" max="10.0" onchange="rangevalue.value=value">
+    </div>
+  </div>
+  <br>
+
+  <div class="places" ng-repeat="place in places">
+    <h2 class="name">{{ place.venue.name }}</h2>
+    <h4 class="rating">{{ place.venue.rating }}</h4>
+    <p class="address">{{ place.venue.location.address }}</p>
+    <p class="phone">{{ place.venue.contact.formattedPhone }}</p>
+    <p class="link">{{ place.venue.url }}</p>
+    <br>
   </div>
 
 </div>

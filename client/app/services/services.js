@@ -22,6 +22,27 @@ angular.module('app.services', [])
     venues = foursquareLocations;
   };
 
+  var sendPrefs = function (prefs) {
+      return $http({
+        method: 'POST',
+        url: '/api/search',
+        data: prefs
+      }).then(function (resp) {
+          // $scope.places = resp.results;
+          // getVenues($scope.places);
+          return resp.results;
+          console.log('IN promise');
+        }).catch(function (err) {
+          console.log('ERRRRR');
+          console.error(err);
+        });
+    };
+
+    var roomDetails;
+    socket.on('serverData', function (roomInfo) {
+        roomDetails = roomInfo;
+    });
+
   return {
     users : users,
     rooms : rooms,
@@ -30,7 +51,9 @@ angular.module('app.services', [])
     getFBdata : getFBdata,
     getRoom : getRoom,
     getRoomData : getRoomData,
-    getVenues: getVenues
+    getVenues : getVenues,
+    sendPrefs : sendPrefs,
+    roomDetails : roomDetails
   };
 
 });
