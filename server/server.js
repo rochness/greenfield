@@ -2,6 +2,11 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 8000;
 var bodyParser = require('body-parser');
+var utils = require('./utility');
+var db = require('./db/database');
+var Room = require('./db/models/roomModel');
+var User = require('./db/models/userModel');
+
 
 // foursquare setup
 var client_id = 'A5JM0WSUSW01TCZ35IA3NFNE211T5OQLUO5ZOSBKZAVSXN0B';
@@ -51,47 +56,49 @@ app.post('/api/search', function (req, res, next) {
 
 });
 
-var getMidPoint = function (users) {
-  var longSum = 0;
-  var latSum = 0;
-  var totalUsers = 0;
 
-  if(users === {}){
-    return [];
-  }
-
-  for(var user in users) {
-    longSum += users[user].longitude;
-    latSum += users[user].latitude;
-    totalUsers++;
-  }
-
-  return [latSum / totalUsers, longSum / totalUsers];
-};
 
 io.on('connection', function (socket) {
   socket.on('init', function (room) {
-    console.log('init got called');
     socket.join('/' + room);
-    console.log('joined room: ', room);
-    if(!storage[room]) {
-      storage[room] = {
-        users: {},
-        midPoint: []
-      };
-    }
-
-    console.log('storage on entering room: ', storage);
-
-    socket.on('userData', function (user) {
-      if(!user) {
+    // console.log('joined room: ', room);
+    // Room.create()
+    // if(!storage[room]) {
+    //   storage[room] = {
+    //     users: {},
+    //     midPoint: []
+    //   };
+    // }
+    socket.on('userData', function (userInfo) {
+    //userInfo is an array that contains info about the user/room ---> userInfo = [$scope.user, roomName]
+      if(!userInfo) {
         console.log('user is undefined');
       }
       else {
-        storage[room]['users'][user.id] = user;
-        storage[room]['midPoint'] = getMidPoint(storage[room].users);
-        socket.emit('serverData', storage[room]);
-        // console.log('room object : ', storage[room]);
+        var newUser = User({
+          _id: userInfo[0].id,
+          userName: userInfo[0].userName,
+          userPic: userInfo[0].userPic,
+          latitude: userInfo[0].latitude,
+          longitude: userInfo[0].longitude,
+          isCreator: userInfo[0].isCreator,
+          roomName: userInfo[1]
+        });
+
+        newUser.save(function(err) {
+          if(err) {
+            console.log('error saving new user in DB: ', err);
+          }
+        });
+        //if room already exists, add user to it
+        //else create room and add user to it
+
+
+        // storage[room]['users'][user.id] = user;
+        // storage[room]['midPoint'] = utils.getMidPoint(storage[room].users);
+        // socket.emit('serverData', storage[room]);
+        // // console.log('room object : ', storage[room]);
+        // console.log('storage on getting user data: ', storage);
       }
     });
 
@@ -100,7 +107,7 @@ io.on('connection', function (socket) {
       delete storage[room].users[userId];
       //update midPoint when user leave a room
       if(Object.keys(storage[room]['users']).length !== 0) {
-        storage[room][midPoint] = getMidPoint(storage[room].users);
+        storage[room][midPoint] = utils.getMidPoint(storage[room].users);
       } else {
         delete storage[room];
       }

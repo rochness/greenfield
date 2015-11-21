@@ -27,6 +27,7 @@
     "foursquarevenues": "^2.0.0",
     "grunt": "0.4.5",
     "grunt-cli": "0.1.13",
+    "mongoose": "^4.2.7",
     "node-yelp": "0.0.3",
     "socket.io": "^1.3.7"
   }

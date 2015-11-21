@@ -30,7 +30,7 @@ angular.module('app.room', ['ngOpenFB'])
       startPos = position;
       $scope.user.latitude = startPos.coords.latitude;
       $scope.user.longitude = startPos.coords.longitude;
-      socket.emit('userData', $scope.user);
+      socket.emit('userData', [$scope.user, $scope.roomName]);
     };
     navigator.geolocation.getCurrentPosition(geoSuccess);
 
@@ -49,6 +49,8 @@ angular.module('app.room', ['ngOpenFB'])
 
     // $scope.roomName = UserHelper.rooms[0];
 
+    $scope.roomName = UserHelper.rooms[0];
+    //tells server that user wants to join specified room
     socket.emit('init', UserHelper.rooms[0]);
     $scope.intervalFunc = $interval($scope.locationCheck, 3000);
   };
