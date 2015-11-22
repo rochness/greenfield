@@ -10,7 +10,7 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.user.isCreator = UserHelper.isCreator;
 
   $scope.locations = [];
-  $scope.roomName = "";
+  $scope.roomCode = (parseInt(Math.random()*10000000)).toString();
 
   $scope.intervalFunc;
 
@@ -46,7 +46,7 @@ angular.module('app.room', ['ngOpenFB'])
   };
 
   $scope.init = function () {
-    $scope.roomName = UserHelper.rooms[0];
+    // $scope.roomName = UserHelper.rooms[0];
     socket.emit('init', UserHelper.rooms[0]);
     $scope.intervalFunc = $interval($scope.locationCheck, 3000);
   };
@@ -72,13 +72,17 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.showInfoWindow = function (event, place) {
     var infowindow = new google.maps.InfoWindow();
     var center = new google.maps.LatLng(place.venue.location.lat, place.venue.location.lng);
+    var name = place.venue.name || '';
+    var rating = place.venue.rating || '';
+    var address = place.venue.location.address || '';
+    var phone = place.venue.contact.formattedPhone || '';
+    var url = place.venue.url || '';
 
     infowindow.setContent(
-       '<h5 class="name">' + place.venue.name + '</h5>' +
-       '<h6 class="rating">' + place.venue.rating + '</h6>' +
-       '<p class="address">' + place.venue.location.address + '</p>' +
-       '<p class="phone">' + place.venue.contact.formattedPhone + '</p>' +
-       '<p class="link">' + place.venue.url + '</p>');
+       '<h5 class="name">' + name + ' // ' + rating +'</h5>' +
+       '<p class="address">' + address + '</p>' +
+       '<p class="phone">' + phone + '</p>' +
+       '<a class="link" href="' + url +'">' + url + '</p>');
 
     infowindow.setPosition(center);
     infowindow.open($scope.map);
