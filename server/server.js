@@ -75,32 +75,34 @@ io.on('connection', function (socket) {
         console.log('user is undefined');
       }
       else {
-        var newUser = User({
-          _id: userInfo[0].id,
-          userName: userInfo[0].userName,
-          userPic: userInfo[0].userPic,
-          latitude: userInfo[0].latitude,
-          longitude: userInfo[0].longitude,
-          isCreator: userInfo[0].isCreator,
-          roomName: userInfo[1]
-        });
-
-        newUser.save(function(err) {
+        utils.updateOrCreateUser(userInfo, function(err, user){
           if(err) {
-            console.log('error saving new user in DB: ', err);
-          }
+            console.log('error updating/creating user: ', err);
+          } else {
+            //user exists & user wants to join a different room
+            if(user.roomName !== userInfo[1]){
+              //delete user from its current room
+              //update the room field of the user
+              //add user to new room
+            } else {
+              utils.updateOrCreateRoom(user, function (err, room) {
+                if(err){
+                  console.log('error updating/creating room');
+                } else {
+                  console.log('room: ', room);
+                }
+              });
+            }
+          }       
         });
-        //if room already exists, add user to it
-        //else create room and add user to it
-
-
+      }
+    });
         // storage[room]['users'][user.id] = user;
         // storage[room]['midPoint'] = utils.getMidPoint(storage[room].users);
         // socket.emit('serverData', storage[room]);
         // // console.log('room object : ', storage[room]);
         // console.log('storage on getting user data: ', storage);
-      }
-    });
+
 
     socket.on('logout', function (userId) {
       console.log('storage on logout: ', storage);
