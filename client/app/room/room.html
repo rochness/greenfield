@@ -6,7 +6,7 @@
   </ul>
 
   <div class = 'col-md-5 col-md-offset-1'>
-  <h4>Room: {{roomName}}</h4>
+  <h4>Room: {{roomCode}}</h4>
     <ng-map class='room' default-style='true' center='current-location' zoom='14'>
       <marker ng-repeat='user in roomDetails.users' position='{{user.latitude}},{{user.longitude}}'
         class='mark' icon = {{user.userPic}}>
@@ -27,16 +27,16 @@
       <form ng-submit="send()">
         <label>Place</label>
         <div class="radio">
-          <label>
-            <input ng-model='prefs.query' name="query" type="radio" value="bar"> Bar
+	  <label class="active">
+	    <input ng-model='prefs.query' name="query" type="radio" value="bar" checked="checked"> Bar
           </label>
         </div>
-        <div class="radio disabled">
+	<div class="radio">
           <label>
             <input ng-model='prefs.query' name="query" type="radio" value="coffee"> Coffee
           </label>
         </div>
-        <div class="radio disabled">
+	<div class="radio">
           <label>
             <input ng-model='prefs.query' name="query" type="radio" value="food"> Restaurant
           </label>
@@ -58,8 +58,11 @@
 
     <div class="col-md-6 col-md-offset-1" style="float:left">
       <br>
-      <label for="points">Rating: <output id="rangevalue">5</output></label>
-      <input ng-model='prefs.rating' type="range" name="rating" id="rating" value="5" min="0" max="10" onchange="rangevalue.value=value">
+      <div style="clear: both">
+	<label for="points" style="float: left">Rating:</label>
+	<output id="rangevalue" style="float: left; margin: -.45em 0 0 .5em">5</output>
+      </div>
+      <input ng-model='prefs.rating' type="range" name="rating" id="rating" value="5" min="1" max="10" onchange="rangevalue.value=value">
     </div>
   </div>
   <br>
