@@ -64,9 +64,9 @@ exports.updateOrCreateRoom = function (user, cb) {
         });
 
       } else {
-        room.users = updateUserInRoom(room.users, user);
-        room.midPoint = getMidPoint(room.users);
-        room.save(function(err, room) {
+        var updatedUsers = updateUserInRoom(room[0].users, user);
+        var updatedMid = getMidPoint(updatedUsers);
+        Room.update({_id: room[0]._id}, {$set: {users: updateUsers, midPoint: updatedMid}}, function (err, room){
           if(err){
             cb(err);
           } else {
@@ -103,15 +103,12 @@ exports.updateOrCreateUser = function (userInfo, cb) {
         });
       } else {
         //update user's long & lat
-        console.log(foundUser);
-        foundUser.longitude = userInfo[0].longitude;
-        foundUser.latitude = userInfo[0].latitude;
-        console.log('foundUser when found: ', foundUser);
-        foundUser.save(function(err, updatedUser) {
+        User.update({ _id:foundUser[0]._id}, { $set: {roomName:userInfo[1], longitude:userInfo[0].longitude,
+                    latitude:userInfo[0].latitude}}, function(err, updatedUser) {
           if(err) {
-            cb(err);
+            cb(err, updatedUser);
           } else {
-            cb(updatedUser);
+            cb(err, updatedUser);
           }
         });
       }
