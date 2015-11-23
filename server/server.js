@@ -56,8 +56,6 @@ app.post('/api/search', function (req, res, next) {
 
 });
 
-
-
 io.on('connection', function (socket) {
   socket.on('init', function (room) {
     socket.join('/' + room);
@@ -80,19 +78,15 @@ io.on('connection', function (socket) {
             console.log('error updating/creating user: ', err);
           } else {
             //user exists & user wants to join a different room
-            if(user.roomName !== userInfo[1]){
-              //delete user from its current room
-              //update the room field of the user
-              //add user to new room
-            } else {
-              utils.updateOrCreateRoom(user, function (err, room) {
-                if(err){
-                  console.log('error updating/creating room');
-                } else {
-                  console.log('room: ', room);
-                }
-              });
-            }
+            console.log('are we getting here?');
+            utils.updateOrCreateRoom(user, function (err, room) {
+              if(err){
+                console.log()
+                console.log('error updating/creating room');
+              } else {
+                console.log('room: ', room);
+              }
+            });
           }       
         });
       }

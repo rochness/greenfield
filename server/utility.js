@@ -22,10 +22,6 @@ exports.getMidPoint = function (users) {
   return [latSum / totalUsers, longSum / totalUsers];
 };
 
-exports.removeUserFromRoom = function (user, room, cb) {
-
-};
-
 var updateUserInRoom = function (roomUsers, user) {
   var result = roomUsers.slice();
   var found = false;
@@ -39,6 +35,29 @@ var updateUserInRoom = function (roomUsers, user) {
     result.push(user);
   }
   return result;
+};
+
+var getUserIndex = function(roomUsers, userId) {
+  for(var i = 0; i < roomUsers.length; i++) {
+    if(roomUsers[i]._id == userId){
+      return i;
+    }
+  }
+  return null;
+};
+
+exports.removeUserFromRoom = function (user, room, cb) {
+  Room.findOne({roomName: room.roomName}).exec(function(err, room) {
+    var indexOfUser = getUserIndex(room.users, user._id);
+    var newUsers = room.users.splice(indexOfUser,1);
+    Room.update({_id: room._id}, { $set: {users: newUsers}}, function (err, updatedRoom) {
+      if(err){
+        cb(err, updatedRoom);
+      } else {
+        cb(err, updatedRoom);
+      }
+    });
+  });
 };
 
 exports.updateOrCreateRoom = function (user, cb) {
@@ -79,11 +98,11 @@ exports.updateOrCreateRoom = function (user, cb) {
 };
 
 exports.updateOrCreateUser = function (userInfo, cb) {
-  User.find({_id: userInfo[0].id}).exec(function(err, foundUser) {
+  User.findOne({_id: userInfo[0].id}).exec(function(err, foundUser) {
     if(err) {
       cb(err);
     } else {
-      if(foundUser.length === 0){
+      if(foundUser === null){
         //create new user
         var newUser = User({
                 _id: userInfo[0].id,
@@ -103,14 +122,24 @@ exports.updateOrCreateUser = function (userInfo, cb) {
         });
       } else {
         //update user's long & lat
-        User.update({ _id:foundUser[0]._id}, { $set: {roomName:userInfo[1], longitude:userInfo[0].longitude,
-                    latitude:userInfo[0].latitude}}, function(err, updatedUser) {
+        foundUser.roomName = userInfo[1];
+        foundUser.longitude = userInfo[0].longitude;
+        foundUser.latitude = userInfo[0].latitude;
+        foundUser.save(function(err, newUser) {
           if(err) {
-            cb(err, updatedUser);
+            cb(err, newUser);
           } else {
-            cb(err, updatedUser);
+            cb(err, newUser);
           }
         });
+        // User.update({ _id:foundUser[0]._id}, { $set: {roomName:userInfo[1], longitude:userInfo[0].longitude,
+        //             latitude:userInfo[0].latitude}}, function(err, updatedUser) {
+        //   if(err) {
+        //     cb(err, updatedUser);
+        //   } else {
+        //     cb(err, updatedUser);
+        //   }
+        // });
       }
     }
   });
