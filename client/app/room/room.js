@@ -10,7 +10,7 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.user.isCreator = UserHelper.isCreator;
 
   $scope.locations = [];
-  $scope.roomCode = (parseInt(Math.random()*10000000)).toString();
+  // $scope.roomCode = (parseInt(Math.random()*10000000)).toString();
 
   $scope.intervalFunc;
 
@@ -46,12 +46,15 @@ angular.module('app.room', ['ngOpenFB'])
   };
 
   $scope.init = function () {
-
-    // $scope.roomName = UserHelper.rooms[0];
-
-    $scope.roomName = UserHelper.rooms[0];
+    //if isCreator is true, set roomName to equal a random roomCode
+    if($scope.user.isCreator) {
+      $scope.roomName = (parseInt(Math.random()*10000000)).toString();
+    } else {
+    //otherwise, roomName is equal to what the user entered in the input field (UserHelper.rooms[0])
+      $scope.roomName = UserHelper.rooms[0];
+    }
     //tells server that user wants to join specified room
-    socket.emit('init', UserHelper.rooms[0]);
+    socket.emit('init', $scope.roomName);
     // $scope.intervalFunc = $interval($scope.locationCheck, 3000);
   };
 }])
