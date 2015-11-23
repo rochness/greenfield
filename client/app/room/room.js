@@ -16,6 +16,7 @@ angular.module('app.room', ['ngOpenFB'])
 
   socket.on('serverData', function (roomInfo) {
     $scope.roomDetails = roomInfo;
+    console.log($scope.roomDetails);
   });
 
   $scope.locationCheck = function () {

@@ -78,13 +78,12 @@ io.on('connection', function (socket) {
             console.log('error updating/creating user: ', err);
           } else {
             //user exists & user wants to join a different room
-            console.log('are we getting here?');
             utils.updateOrCreateRoom(user, function (err, room) {
               if(err){
-                console.log()
                 console.log('error updating/creating room');
               } else {
-                console.log('room: ', room);
+                // console.log('room: ', room);
+                socket.emit('serverData', room);
               }
             });
           }       
