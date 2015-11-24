@@ -54,7 +54,8 @@ angular.module('app.services', [])
     getRoomData : getRoomData,
     getVenues : getVenues,
     sendPrefs : sendPrefs,
-    getRoomDetails : getRoomDetails
+    getRoomDetails : getRoomDetails,
+    roomDetails : roomDetails
   };
 
 });

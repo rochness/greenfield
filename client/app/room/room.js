@@ -10,15 +10,14 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.user.isCreator = UserHelper.isCreator;
 
   $scope.locations = [];
-  $scope.roomCode = (parseInt(Math.random()*10000000)).toString();
+  // $scope.roomCode = (parseInt(Math.random()*10000000)).toString();
 
   $scope.intervalFunc;
 
-  socket.on('serverData', function (roomInfo) {
-    $scope.roomDetails = roomInfo;
-  });
+
 
   $scope.locationCheck = function () {
+    console.log('location set');
     if (navigator.geolocation) {
       console.log('Geolocation is supported!');
     } else {
@@ -30,24 +29,38 @@ angular.module('app.room', ['ngOpenFB'])
       startPos = position;
       $scope.user.latitude = startPos.coords.latitude;
       $scope.user.longitude = startPos.coords.longitude;
-      socket.emit('userData', $scope.user);
+      socket.emit('userData', [$scope.user, $scope.roomName]);
     };
     navigator.geolocation.getCurrentPosition(geoSuccess);
 
   };
-  $scope.locationCheck();
+
+ socket.on('serverData', function (roomInfo) {
+    $scope.roomDetails = roomInfo;
+  });
+
+  socket.on('joinedRoom', function (room) {
+    $scope.locationCheck();
+  });
 
   $scope.logOut = function (fb) {
     $interval.cancel($scope.intervalFunc);
-    socket.emit('logout', $scope.user.id);
+    socket.emit('logout', [$scope.user, $scope.roomName]);
     if (fb) {
       $openFB.logout();
     }
   };
 
   $scope.init = function () {
-    // $scope.roomName = UserHelper.rooms[0];
-    socket.emit('init', UserHelper.rooms[0]);
+    //if isCreator is true, set roomName to equal a random roomCode
+    if($scope.user.isCreator) {
+      $scope.roomName = (parseInt(Math.random()*10000000)).toString();
+    } else {
+    //otherwise, roomName is equal to what the user entered in the input field (UserHelper.rooms[0])
+      $scope.roomName = UserHelper.rooms[0];
+    }
+    //tells server that user wants to join specified room
+    socket.emit('init', $scope.roomName);
     $scope.intervalFunc = $interval($scope.locationCheck, 3000);
   };
 }])
@@ -64,6 +77,7 @@ angular.module('app.room', ['ngOpenFB'])
       UserHelper.getVenues($scope.places);
     });
   };
+
 
   $scope.$on('mapInitialized', function (event, map) {
     $scope.map = map;

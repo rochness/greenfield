@@ -2,6 +2,11 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 8000;
 var bodyParser = require('body-parser');
+var utils = require('./utility');
+var db = require('./db/database');
+var Room = require('./db/models/roomModel');
+var User = require('./db/models/userModel');
+
 
 // foursquare setup
 var client_id = 'A5JM0WSUSW01TCZ35IA3NFNE211T5OQLUO5ZOSBKZAVSXN0B';
@@ -51,45 +56,55 @@ app.post('/api/search', function (req, res, next) {
 
 });
 
-var getMidPoint = function (users) {
-  var longSum = 0;
-  var latSum = 0;
-  var totalUsers = 0;
-  for(var user in users) {
-    longSum += users[user].longitude;
-    latSum += users[user].latitude;
-    totalUsers++;
-  }
-
-  return [latSum / totalUsers, longSum / totalUsers];
-};
-
 io.on('connection', function (socket) {
   socket.on('init', function (room) {
     socket.join('/' + room);
-    if(!storage[room]) {
-      storage[room] = {
-        users: {},
-        midPoint: []
-      };
-    }
-
-    socket.on('userData', function (user) {
-      if(!user) {
+    socket.emit('joinedRoom', room);
+    // console.log('joined room: ', room);
+    // Room.create()
+    // if(!storage[room]) {
+    //   storage[room] = {
+    //     users: {},
+    //     midPoint: []
+    //   };
+    // }
+    socket.on('userData', function (userInfo) {
+    //userInfo is an array that contains info about the user/room ---> userInfo = [$scope.user, roomName]
+      if(!userInfo) {
         console.log('user is undefined');
       }
       else {
-        storage[room]['users'][user.id] = user;
-        storage[room]['midPoint'] = getMidPoint(storage[room].users);
-        socket.emit('serverData', storage[room]);
+        utils.updateOrCreateUser(userInfo, function(err, user){
+          if(err) {
+            console.log('error updating/creating user: ', err);
+          } else {
+            //user exists & user wants to join a different room
+            utils.updateOrCreateRoom(user, function (err, room) {
+              if(err){
+                console.log('error updating/creating room', err);
+                console.log('room: ', room);
+
+              } else {
+                // console.log('room: ', room);
+                socket.emit('serverData', room);
+              }
+            });
+          }       
+        });
       }
     });
 
-    socket.on('logout', function (userId) {
-      delete storage[room][users][userId];
-      storage[room][midPoint] = getMidPoint(storage[room][users]);
+    socket.on('logout', function (userInfo) {
+      console.log('logout params: ', userInfo);
+      utils.removeUserFromRoom(userInfo[0], userInfo[1], function (err, updatedRoom) {
+        if(err) {
+          console.log('error removing user from room: ', err);
+        } else {
+          socket.emit('serverData', room);
+          console.log('updated room: ', updatedRoom);
+        }
+      });
       socket.leave('/' + room);
-      socket.emit('serverData', storage[room]);
     });
   });
 });
