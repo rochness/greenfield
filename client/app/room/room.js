@@ -16,7 +16,6 @@ angular.module('app.room', ['ngOpenFB'])
 
   socket.on('serverData', function (roomInfo) {
     $scope.roomDetails = roomInfo;
-    console.log($scope.roomDetails);
   });
 
   $scope.locationCheck = function () {
@@ -56,7 +55,7 @@ angular.module('app.room', ['ngOpenFB'])
     }
     //tells server that user wants to join specified room
     socket.emit('init', $scope.roomName);
-    // $scope.intervalFunc = $interval($scope.locationCheck, 3000);
+    $scope.intervalFunc = $interval($scope.locationCheck, 3000);
   };
 }])
 .controller('preferenceController', ['$scope', 'UserHelper', function ($scope, UserHelper) {

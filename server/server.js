@@ -80,7 +80,9 @@ io.on('connection', function (socket) {
             //user exists & user wants to join a different room
             utils.updateOrCreateRoom(user, function (err, room) {
               if(err){
-                console.log('error updating/creating room');
+                console.log('error updating/creating room', err);
+                console.log('room: ', room);
+
               } else {
                 // console.log('room: ', room);
                 socket.emit('serverData', room);
