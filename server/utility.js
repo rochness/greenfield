@@ -46,27 +46,33 @@ var getUserIndex = function(roomUsers, userId) {
   return null;
 };
 
-exports.removeUserFromRoom = function (user, room, cb) {
-  Room.findOne({roomName: room.roomName}).exec(function(err, room) {
-    var indexOfUser = getUserIndex(room.users, user._id);
-    var newUsers = room.users.splice(indexOfUser,1);
-    Room.update({_id: room._id}, { $set: {users: newUsers}}, function (err, updatedRoom) {
-      if(err){
-        cb(err, updatedRoom);
-      } else {
-        cb(err, updatedRoom);
-      }
-    });
+exports.removeUserFromRoom = function (user, roomName, cb) {
+  Room.findOne({roomName: roomName}).exec(function(err, room) {
+    if(err){
+      cb(err, room);
+    } else {
+      var indexOfUser = getUserIndex(room.users, user._id);
+      room.users.splice(indexOfUser,1);
+      room.save(function (err, updatedRoom) {
+        if(err){
+          cb(err, updatedRoom);
+        } else {
+          cb(err, updatedRoom);
+        }
+      });
+    }
   });
 };
 
 exports.updateOrCreateRoom = function (user, cb) {
+  console.log('user.roomName in update/createRoom util: ', user.roomName);
   Room.findOne({roomName: user.roomName}).exec(function(err, room) {
     if(err) {
       console.log('error finding room: ', err);
     } else {
       if(room === null){
         //create new room
+        console.log('room is null? ', user.roomName);
         var newRoom = Room({
           roomName: user.roomName,
           users: [user],

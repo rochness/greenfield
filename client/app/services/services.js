@@ -38,11 +38,9 @@ angular.module('app.services', [])
 
   socket.on('serverData', function (roomInfo) {
     roomDetails = roomInfo;
-    console.log('in services, roomDetails: ', roomDetails);
   });
 
   var getRoomDetails = function () {
-    console.log('roomDetails in UserHelper function: ', roomDetails);
     return roomDetails;
   };
 

@@ -14,11 +14,10 @@ angular.module('app.room', ['ngOpenFB'])
 
   $scope.intervalFunc;
 
-  socket.on('serverData', function (roomInfo) {
-    $scope.roomDetails = roomInfo;
-  });
+
 
   $scope.locationCheck = function () {
+    console.log('location set');
     if (navigator.geolocation) {
       console.log('Geolocation is supported!');
     } else {
@@ -35,11 +34,18 @@ angular.module('app.room', ['ngOpenFB'])
     navigator.geolocation.getCurrentPosition(geoSuccess);
 
   };
-  $scope.locationCheck();
+
+ socket.on('serverData', function (roomInfo) {
+    $scope.roomDetails = roomInfo;
+  });
+
+  socket.on('joinedRoom', function (room) {
+    $scope.locationCheck();
+  });
 
   $scope.logOut = function (fb) {
     $interval.cancel($scope.intervalFunc);
-    socket.emit('logout', $scope.user.id);
+    socket.emit('logout', [$scope.user, $scope.roomName]);
     if (fb) {
       $openFB.logout();
     }

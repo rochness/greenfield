@@ -59,6 +59,7 @@ app.post('/api/search', function (req, res, next) {
 io.on('connection', function (socket) {
   socket.on('init', function (room) {
     socket.join('/' + room);
+    socket.emit('joinedRoom', room);
     // console.log('joined room: ', room);
     // Room.create()
     // if(!storage[room]) {
@@ -92,24 +93,18 @@ io.on('connection', function (socket) {
         });
       }
     });
-        // storage[room]['users'][user.id] = user;
-        // storage[room]['midPoint'] = utils.getMidPoint(storage[room].users);
-        // socket.emit('serverData', storage[room]);
-        // // console.log('room object : ', storage[room]);
-        // console.log('storage on getting user data: ', storage);
 
-
-    socket.on('logout', function (userId) {
-      console.log('storage on logout: ', storage);
-      delete storage[room].users[userId];
-      //update midPoint when user leave a room
-      if(Object.keys(storage[room]['users']).length !== 0) {
-        storage[room][midPoint] = utils.getMidPoint(storage[room].users);
-      } else {
-        delete storage[room];
-      }
+    socket.on('logout', function (userInfo) {
+      console.log('logout params: ', userInfo);
+      utils.removeUserFromRoom(userInfo[0], userInfo[1], function (err, updatedRoom) {
+        if(err) {
+          console.log('error removing user from room: ', err);
+        } else {
+          socket.emit('serverData', room);
+          console.log('updated room: ', updatedRoom);
+        }
+      });
       socket.leave('/' + room);
-      socket.emit('serverData', storage[room]);
     });
   });
 });
