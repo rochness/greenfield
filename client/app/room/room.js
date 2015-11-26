@@ -8,16 +8,14 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.user.latitude = '';
   $scope.user.longitude = '';
   $scope.user.isCreator = UserHelper.isCreator;
+  $scope.roomDetails;
 
-  $scope.locations = [];
   // $scope.roomCode = (parseInt(Math.random()*10000000)).toString();
 
   $scope.intervalFunc;
 
-
-
   $scope.locationCheck = function () {
-    console.log('location set');
+    console.log('locationCheck called');
     if (navigator.geolocation) {
       console.log('Geolocation is supported!');
     } else {
@@ -30,6 +28,7 @@ angular.module('app.room', ['ngOpenFB'])
       $scope.user.latitude = startPos.coords.latitude;
       $scope.user.longitude = startPos.coords.longitude;
       socket.emit('userData', [$scope.user, $scope.roomName]);
+      console.log('userData emitted');
     };
     navigator.geolocation.getCurrentPosition(geoSuccess);
 
@@ -37,6 +36,7 @@ angular.module('app.room', ['ngOpenFB'])
 
  socket.on('serverData', function (roomInfo) {
     $scope.roomDetails = roomInfo;
+    console.log('roomDetails from serverData: ', $scope.roomDetails);
   });
 
   socket.on('joinedRoom', function (room) {
@@ -61,26 +61,27 @@ angular.module('app.room', ['ngOpenFB'])
     }
     //tells server that user wants to join specified room
     socket.emit('init', $scope.roomName);
-    $scope.intervalFunc = $interval($scope.locationCheck, 3000);
+    // $scope.intervalFunc = $interval($scope.locationCheck, 3000);
   };
-}])
-.controller('preferenceController', ['$scope', 'UserHelper', function ($scope, UserHelper) {
+// }])
+// .controller('preferenceController', ['$scope', 'UserHelper', function ($scope, UserHelper) {
 
   $scope.prefs = {};
   $scope.send = function () {
-    var roomDetails = UserHelper.getRoomDetails();
-    $scope.prefs.location = roomDetails.midPoint;
+    // var roomDetails = UserHelper.getRoomDetails();
+    $scope.prefs.location = $scope.roomDetails.midPoint;
     $scope.prefs.rating = parseFloat($scope.prefs.rating).toFixed(1);
     UserHelper.sendPrefs($scope.prefs)
     .then(function (businesses) {
       $scope.places = businesses;
-      UserHelper.getVenues($scope.places);
+      UserHelper.setVenues($scope.places);
     });
   };
 
 
   $scope.$on('mapInitialized', function (event, map) {
     $scope.map = map;
+    console.log('when does mapInitialized happen?');
   });
 
   $scope.showInfoWindow = function (event, place) {

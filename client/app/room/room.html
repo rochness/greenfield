@@ -1,5 +1,5 @@
 
-<div class="container" ng-init='init()' ng-controller="preferenceController">
+<div class="container" ng-init='init()'>
   <ul class="nav nav-pills right">
     <li role="presentation" class="active"><a href='#/facebook' ng-click='logOut()'>Home</a></li>
     <li role="presentation"><a href='#/logout' ng-click='logOut(true)'>Logout</a></li>
@@ -9,7 +9,7 @@
   <h4>Room: {{roomName}}</h4>
     <ng-map class='room' default-style='true' center='current-location' zoom='14'>
       <marker ng-repeat='user in roomDetails.users' position='{{user.latitude}},{{user.longitude}}'
-        class='mark' icon = {{user.userPic}}>
+        class='mark' icon = {{user.userPic}} draggable="true">
       </marker>
 
       <marker ng-repeat='place in places.slice(0,3)'
@@ -19,9 +19,16 @@
         draggable="false">
       </marker>
     </ng-map>
-  </div>
 
-  <div class="col-md-5">
+  <div>
+      Room Details: {{roomDetails}}
+  </div>
+  </div>
+  <!-- <div ng-repeat='user in roomDetails.users'> -->
+ 
+
+  <div class="col-md-5" >
+  <!-- ng-controller="preferenceController" -->
     <h2>Preferences</h2>
     <div class="col-md-5" style="float:left">
       <form ng-submit="send()">
