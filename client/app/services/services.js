@@ -19,9 +19,8 @@ angular.module('app.services', [])
     roomData = socketResponse;
   };
 
-  var getVenues = function (foursquareLocations) {
+  var setVenues = function (foursquareLocations) {
     venues = foursquareLocations;
-    console.log(venues);
   };
 
   var sendPrefs = function (prefs) {
@@ -52,10 +51,10 @@ angular.module('app.services', [])
     getFBdata : getFBdata,
     getRoom : getRoom,
     getRoomData : getRoomData,
-    getVenues : getVenues,
     sendPrefs : sendPrefs,
     getRoomDetails : getRoomDetails,
-    roomDetails : roomDetails
+    roomDetails : roomDetails,
+    setVenues : setVenues
   };
 
 });
