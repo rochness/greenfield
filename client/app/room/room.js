@@ -34,9 +34,11 @@ angular.module('app.room', ['ngOpenFB'])
 
   };
 
- socket.on('serverData', function (roomInfo) {
-    $scope.roomDetails = roomInfo;
-    console.log('roomDetails from serverData: ', $scope.roomDetails);
+  socket.on('serverData', function (roomInfo) {
+    $scope.$apply(function() {
+      $scope.roomDetails = roomInfo;
+      console.log('roomDetails from serverData: ', $scope.roomDetails);
+    });
   });
 
   socket.on('joinedRoom', function (room) {
