@@ -1,5 +1,4 @@
 angular.module('app.services', [])
-
 .factory('UserHelper', function ($http){
   var users = [];
   var rooms = [];
@@ -35,14 +34,6 @@ angular.module('app.services', [])
         });
     };
 
-  socket.on('serverData', function (roomInfo) {
-    roomDetails = roomInfo;
-  });
-
-  var getRoomDetails = function () {
-    return roomDetails;
-  };
-
   return {
     users : users,
     rooms : rooms,
@@ -52,7 +43,6 @@ angular.module('app.services', [])
     getRoom : getRoom,
     getRoomData : getRoomData,
     sendPrefs : sendPrefs,
-    getRoomDetails : getRoomDetails,
     roomDetails : roomDetails,
     setVenues : setVenues
   };
