@@ -56,24 +56,22 @@ app.post('/api/search', function (req, res, next) {
 
 });
 
-io.on('connection', function (socket) {
+io.sockets.on('connection', function (socket) {
   socket.on('init', function (room) {
     socket.join('/' + room);
     socket.emit('joinedRoom', room);
-    // console.log('joined room: ', room);
-    // Room.create()
-    // if(!storage[room]) {
-    //   storage[room] = {
-    //     users: {},
-    //     midPoint: []
-    //   };
-    // }
+    console.log('joined room: ', room);
+  });
+
     socket.on('userData', function (userInfo) {
     //userInfo is an array that contains info about the user/room ---> userInfo = [$scope.user, roomName]
       if(!userInfo) {
         console.log('user is undefined');
       }
       else {
+        // socket.join('/' + userInfo[1]);
+        // socket.emit('joinedRoom', userInfo[1]);
+        // console.log('joined room: ', userInfo[1]);
         utils.updateOrCreateUser(userInfo, function(err, user){
           if(err) {
             console.log('error updating/creating user: ', err);
@@ -86,7 +84,9 @@ io.on('connection', function (socket) {
 
               } else {
                 // console.log('room: ', room);
-                socket.emit('serverData', room);
+                io.sockets.in('/' + room.roomName).emit('serverData', room);
+                console.log('emiting serverData after receiving userData', room.roomName);
+                console.log('rooms in socket io: ', io.sockets.adapter.rooms);
               }
             });
           }       
@@ -107,8 +107,7 @@ io.on('connection', function (socket) {
       socket.leave('/' + room);
     });
   });
-});
+// });
 
-// setInterval(function(){console.log('storage', storage)}, 5000);
 
 module.exports = app;
