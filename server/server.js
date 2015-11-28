@@ -69,9 +69,6 @@ io.sockets.on('connection', function (socket) {
         console.log('user is undefined');
       }
       else {
-        // socket.join('/' + userInfo[1]);
-        // socket.emit('joinedRoom', userInfo[1]);
-        // console.log('joined room: ', userInfo[1]);
         utils.updateOrCreateUser(userInfo, function(err, user){
           if(err) {
             console.log('error updating/creating user: ', err);
@@ -83,10 +80,8 @@ io.sockets.on('connection', function (socket) {
                 console.log('room: ', room);
 
               } else {
-                // console.log('room: ', room);
                 io.sockets.in('/' + room.roomName).emit('serverData', room);
                 console.log('emiting serverData after receiving userData', room.roomName);
-                console.log('rooms in socket io: ', io.sockets.adapter.rooms);
               }
             });
           }       
