@@ -1,5 +1,5 @@
 angular.module('app.room', ['ngOpenFB'])
-.controller('RoomController', ['$scope', '$openFB', '$interval', 'UserHelper', function ($scope, $openFB, $interval, UserHelper) {
+.controller('RoomController', ['$scope','$openFB', '$interval', 'UserHelper', function ($scope, $openFB, $interval, UserHelper) {
   // methods to be used inside map.html
   $scope.user = {};
   $scope.user.id = UserHelper.users[0].id;
@@ -42,6 +42,7 @@ angular.module('app.room', ['ngOpenFB'])
         $scope.places = roomInfo.venues;
       }
       console.log('roomDetails from serverData: ', $scope.roomDetails);
+
     });
   });
 
@@ -76,20 +77,30 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.send = function () {
     $scope.prefs.location = $scope.roomDetails.midPoint;
     $scope.prefs.rating = parseFloat($scope.prefs.rating).toFixed(1);
+    console.log('markers: ', $scope.map.markers);
     UserHelper.sendPrefs($scope.prefs)
     .then(function (businesses) {
       $scope.places = businesses;
       UserHelper.setVenues($scope.places);
       //emit data to server with roomName and venues
       socket.emit('venues', [$scope.roomName, $scope.places]);
-
     });
   };
 
   $scope.$on('mapInitialized', function (event, map) {
     $scope.map = map;
-    console.log('when does mapInitialized happen?');
+    // google.maps.event.addListener(map.markers[0], "dragend", function(event) {
+    //   console.log('marker moved: ', map.markers[0]);
+    // });
+
   });
+
+ $scope.updatePosition = function (event) {
+    console.log('dragged: ', [event.latLng.lat(), event.latLng.lng()]);
+    $scope.user.latitude = event.latLng.lat();
+    $scope.user.longitude = event.latLng.lng();
+    socket.emit('userData', [$scope.user, $scope.roomName]);
+  };
 
   $scope.showInfoWindow = function (event, place) {
     var infowindow = new google.maps.InfoWindow();

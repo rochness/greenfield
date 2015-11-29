@@ -9,7 +9,7 @@
   <h4>Room: {{roomName}}</h4>
     <ng-map class='room' default-style='true' center='current-location' zoom='14'>
       <marker ng-repeat='user in roomDetails.users' position='{{user.latitude}},{{user.longitude}}'
-        class='mark' icon = {{user.userPic}} draggable="true">
+        class='mark' icon = {{user.userPic}} draggable="true" on-dragend="updatePosition()">
       </marker>
 
       <marker ng-repeat='place in places.slice(0,3)'
