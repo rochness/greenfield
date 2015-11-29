@@ -30,8 +30,6 @@ app.use(express.static(__dirname + '/../client'));
 
 server.listen(port);
 
-var storage = {};
-
 app.get('/google53b80a8d8629a34b.html', function (req, res) {
   res.sendFile('/../client/app/google/google53b80a8d8629a34b.html');
 });
@@ -77,16 +75,27 @@ io.sockets.on('connection', function (socket) {
             utils.updateOrCreateRoom(user, function (err, room) {
               if(err){
                 console.log('error updating/creating room', err);
-                console.log('room: ', room);
 
               } else {
                 io.sockets.in('/' + room.roomName).emit('serverData', room);
-                console.log('emiting serverData after receiving userData', room.roomName);
+                // console.log('emiting serverData after receiving userData', room.roomName);
               }
             });
           }       
         });
       }
+    });
+
+    socket.on('venues', function (roomAndVenues) {
+      //find room and add venues to roomDoc
+      utils.addVenuesToRoom(roomAndVenues, function (err, updatedRoom) {
+        if(err) {
+          console.log('error adding venues to room');
+        } else {
+          //emit serverData with room info
+          io.sockets.in('/' + updatedRoom.roomName).emit('serverData', updatedRoom);
+        }
+      });
     });
 
     socket.on('logout', function (userInfo) {
@@ -96,11 +105,12 @@ io.sockets.on('connection', function (socket) {
           console.log('error removing user from room: ', err);
         } else {
           socket.emit('serverData', room);
-          console.log('updated room: ', updatedRoom);
+          // console.log('updated room: ', updatedRoom);
         }
       });
       socket.leave('/' + room);
     });
+
   });
 // });
 

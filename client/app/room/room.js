@@ -38,6 +38,9 @@ angular.module('app.room', ['ngOpenFB'])
     console.log('received serverData');
     $scope.$apply(function() {
       $scope.roomDetails = roomInfo;
+      if(roomInfo.venues.length !== 0) {
+        $scope.places = roomInfo.venues;
+      }
       console.log('roomDetails from serverData: ', $scope.roomDetails);
     });
   });
@@ -78,6 +81,7 @@ angular.module('app.room', ['ngOpenFB'])
       $scope.places = businesses;
       UserHelper.setVenues($scope.places);
       //emit data to server with roomName and venues
+      socket.emit('venues', [$scope.roomName, $scope.places]);
 
     });
   };

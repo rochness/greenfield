@@ -4,7 +4,8 @@ var mongoose = require('mongoose');
 var roomSchema = mongoose.Schema({
   roomName: String,
   midPoint: [Number, Number],
-  users: [mongoose.model('User').schema]
+  users: [mongoose.model('User').schema],
+  venues: { type : Array , "default" : [] }
 });
 
 var Room = mongoose.model('Room', roomSchema);

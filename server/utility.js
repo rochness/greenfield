@@ -181,6 +181,23 @@ exports.updateOrCreateRoom = function (user, cb) {
   });
 };
 
+exports.addVenuesToRoom = function(roomAndVenues, cb) {
+  Room.findOne({roomName: roomAndVenues[0]}).exec(function(err, room) {
+    if(err) {
+      console.log('error finding room: ', err);
+  } else {
+      room.venues = roomAndVenues[1];
+      room.save( function (err, room) {
+        if(err){
+          cb(err, room);
+        } else {
+          cb(err, room);
+        }
+      });
+    }
+  });
+};
+
 exports.updateOrCreateUser = function (userInfo, cb) {
   User.findOne({_id: userInfo[0].id}).exec(function(err, foundUser) {
     if(err) {
