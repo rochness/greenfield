@@ -1,25 +1,101 @@
 var User = require('./db/models/userModel');
 var Room = require('./db/models/roomModel');
 var mongoose = require('mongoose');
+var _ = require('underscore');
 
+var dataPoints = [];
 
+// calculates the median value of a given data set
+var medianCalc = function (set) {
+  var length = set.length;
+  return length % 2 === 1 ? set[(length - 1) / 2] : (set[(length / 2) - 1] + set[length / 2]) / 2;
+};
 
+// finds the outlier in a group of 3 or 4 users
+var maxDist = function (users) {
+  var length = users.length;
+  var median = medianCalc(dataPoints);
+  var dist1 = Math.abs(dataPoints[0] - median);
+  var dist2 = dataPoints[length - 1] - median;
+
+  if (dist1 > dist2) {
+    users[0].outlier = true;
+  } else {
+    users[length - 1].outlier = true;
+  }
+};
+
+// finds all outliers in a group of users exceeding 4 people using a boxplot
+var boxPlot = function (data) {
+  var min = data[0];
+  var max = data[data.length - 1];
+  var median = medianCalc(data);
+  var medIndex = Math.floor((data.length - 1) / 2);
+  var Q1, Q3, IQR;
+
+  // determines first and third quartiles based on group size (odd or even)
+  if (data.length % 2 === 1) {
+    Q1 = medianCalc(data.slice(0, medIndex));
+    Q3 = medianCalc(data.slice(medIndex + 1));
+  } else {
+    Q1 = medianCalc(data.slice(0, medIndex + 1));
+    Q3 = medianCalc(data.slice(medIndex + 1));
+  }
+
+  // interquartile range
+  IQR = Q3 - Q1;
+
+  // assigns outlier property to user if data point is outside the quartile fences
+  _.map(users, function (user) {
+    if (user.dataPoint < (Q1 - (1.5 * IQR)) || user.dataPoint > (Q3 + (1.5 * IQR))) {
+      user.outlier = true;
+    }
+  });
+};
+
+// finds midpoint location for venue query using group size and weighted means based on outlier status
 var getMidPoint = function (users) {
-  var longSum = 0;
-  var latSum = 0;
-  var totalUsers = 0;
+  var longWeight = 0;
+  var latWeight = 0;
+  var weightedLongSum = 0;
+  var weightedLatSum = 0;
 
-  if(users.length === 0){
+  if (users.length === 0) {
     return [];
   }
 
-  for(var i = 0; i < users.length; i++) {
-    longSum += Number(users[i].longitude);
-    latSum += Number(users[i].latitude);
-    totalUsers++;
+  // calculates unique data point for each user using both latitude and longitude
+  _.map(users, function (user) {
+    user.dataPoint = Math.abs(user.longitude + user.latitude);
+    dataPoints.push(user.dataPoint);
+  });
+
+  dataPoints = dataPoints.sort(function (x, y) {
+    return x - y;
+  });
+
+  // only use boxplot for groups larger than 4
+  if (users.length > 2 && users.length <= 4) {
+    maxDist(users);
+  } else if (users.length > 4) {
+    boxPlot(dataPoints);
   }
 
-  return [latSum / totalUsers, longSum / totalUsers];
+  // weighted mean calculation based on user's outlier status
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].outlier) {
+      weightedLongSum += Number(users[i].longitude);
+      longWeight++;
+      weightedLatSum += Number(users[i].latitude);
+      latWeight++;
+    } else {
+      weightedLongSum += (Number(users[i].longitude) * 2);
+      longWeight += 2;
+      weightedLatSum += (Number(users[i].latitude) * 2);
+      latWeight += 2;
+    }
+  }
+  return [weightedLatSum / latWeight, weightedLongSum / longWeight];
 };
 
 var updateUserInRoom = function (roomUsers, user) {
