@@ -5,7 +5,7 @@ angular.module('app.joiner', ['ngOpenFB'])
   $scope.setRoom= function () {
     UserHelper.getRoom($scope.roomName);
     UserHelper.isCreator = false;
-    $location.path('/room');
+    $location.path('/roomGuest');
   };
 
   $scope.logout = function () {

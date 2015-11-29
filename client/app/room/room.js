@@ -97,10 +97,10 @@ angular.module('app.room', ['ngOpenFB'])
     var url = place.venue.url || '';
 
     infowindow.setContent(
-       '<h5 class="name">' + name + ' // ' + rating +'</h5>' +
-       '<p class="address">' + address + '</p>' +
-       '<p class="phone">' + phone + '</p>' +
-       '<a class="link" href="' + url +'">' + url + '</p>');
+      '<h5 class="name">' + name + ' // ' + rating +'</h5>' +
+      '<p class="address">' + address + '</p>' +
+      '<p class="phone">' + phone + '</p>' +
+      '<a class="link" href="' + url +'">' + url + '</p>');
 
     infowindow.setPosition(center);
     infowindow.open($scope.map);
