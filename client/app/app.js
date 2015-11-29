@@ -27,6 +27,10 @@ angular.module('app', [
       templateUrl: 'app/room/room.html',
       controller: 'RoomController'
     })
+    .when('/roomGuest', {
+      templateUrl: 'app/room/roomGuest.html',
+      controller: 'RoomController'
+    })
     .when('/roomMaker', {
       templateUrl: 'app/roomMaker/roomMaker.html',
       controller: 'RoomMakerController'

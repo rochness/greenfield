@@ -27,16 +27,16 @@
       <form ng-submit="send()">
         <label>Place</label>
         <div class="radio">
-	  <label class="active">
-	    <input ng-model='prefs.query' name="query" type="radio" value="bar" checked="checked"> Bar
+          <label class="active">
+            <input ng-model='prefs.query' name="query" type="radio" value="bar" checked="checked"> Bar
           </label>
         </div>
-	<div class="radio">
+        <div class="radio">
           <label>
             <input ng-model='prefs.query' name="query" type="radio" value="coffee"> Coffee
           </label>
         </div>
-	<div class="radio">
+        <div class="radio">
           <label>
             <input ng-model='prefs.query' name="query" type="radio" value="food"> Restaurant
           </label>
@@ -59,8 +59,8 @@
     <div class="col-md-6 col-md-offset-1" style="float:left">
       <br>
       <div style="clear: both">
-	<label for="points" style="float: left">Rating:</label>
-	<output id="rangevalue" style="float: left; margin: -.45em 0 0 .5em">5</output>
+        <label for="points" style="float: left">Rating:</label>
+        <output id="rangevalue" style="float: left; margin: -.45em 0 0 .5em">5</output>
       </div>
       <input ng-model='prefs.rating' type="range" name="rating" id="rating" value="5" min="1" max="10" onchange="rangevalue.value=value">
     </div>
