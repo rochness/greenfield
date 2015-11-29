@@ -35,6 +35,7 @@ angular.module('app.room', ['ngOpenFB'])
   };
 
   socket.on('serverData', function (roomInfo) {
+    console.log('received serverData');
     $scope.$apply(function() {
       $scope.roomDetails = roomInfo;
       console.log('roomDetails from serverData: ', $scope.roomDetails);
@@ -70,16 +71,16 @@ angular.module('app.room', ['ngOpenFB'])
 
   $scope.prefs = {};
   $scope.send = function () {
-    // var roomDetails = UserHelper.getRoomDetails();
     $scope.prefs.location = $scope.roomDetails.midPoint;
     $scope.prefs.rating = parseFloat($scope.prefs.rating).toFixed(1);
     UserHelper.sendPrefs($scope.prefs)
     .then(function (businesses) {
       $scope.places = businesses;
       UserHelper.setVenues($scope.places);
+      //emit data to server with roomName and venues
+
     });
   };
-
 
   $scope.$on('mapInitialized', function (event, map) {
     $scope.map = map;
