@@ -198,6 +198,47 @@ exports.addVenuesToRoom = function(roomAndVenues, cb) {
   });
 };
 
+exports.updateVenues = function (roomAndVenues, cb) {
+  Room.findOne({roomName: roomAndVenues[0]}).exec(function(err, room) {
+    if(err) {
+      console.log('error finding room: ', err);
+  } else {
+      for (var i = 0; i < roomAndVenues[1]; i++) {
+        room.venues[i].votes += roomAndVenues[1].votes; 
+      }
+      room.save( function (err, room) {
+        if(err){
+          cb(err, room);
+        } else {
+          cb(err, room);
+        }
+      });
+    }
+  });
+};
+
+exports.setSelectedVenue = function (roomAndSelection, cb) {
+  Room.findOne({roomName: roomAndSelection[0]}).exec(function(err, room) {
+    if(err) {
+      console.log('error finding room: ', err);
+  } else {
+      //find the venue object given the selection venue name from client side
+      for(var i = 0; i < room.venues.length; i ++) {
+        if(room.venues[i].venue.name === roomAndSelection[1]) {
+          room.selectedVenue = room.venues[i];
+        }
+      }
+      room.save( function (err, room) {
+        if(err){
+          cb(err, room);
+        } else {
+          cb(err, room);
+        }
+      });
+    }
+  });
+};
+
 exports.updateOrCreateUser = function (userInfo, cb) {
   User.findOne({_id: userInfo[0].id}).exec(function(err, foundUser) {
     if(err) {

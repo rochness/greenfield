@@ -11,10 +11,6 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.roomDetails;
   $scope.hideBtn = true;
 
-  // $scope.roomCode = (parseInt(Math.random()*10000000)).toString();
-
-  $scope.intervalFunc;
-
   $scope.locationCheck = function () {
     console.log('locationCheck called');
     if (navigator.geolocation) {
@@ -68,10 +64,7 @@ angular.module('app.room', ['ngOpenFB'])
     }
     //tells server that user wants to join specified room
     socket.emit('init', $scope.roomName);
-    // $scope.intervalFunc = $interval($scope.locationCheck, 3000);
   };
-// }])
-// .controller('preferenceController', ['$scope', 'UserHelper', function ($scope, UserHelper) {
 
   $scope.prefs = {};
   $scope.send = function () {
@@ -96,10 +89,6 @@ angular.module('app.room', ['ngOpenFB'])
 
   $scope.$on('mapInitialized', function (event, map) {
     $scope.map = map;
-    // google.maps.event.addListener(map.markers[0], "dragend", function(event) {
-    //   console.log('marker moved: ', map.markers[0]);
-    // });
-
   });
 
  $scope.updatePosition = function (event) {
