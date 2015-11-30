@@ -79,7 +79,8 @@
           </tr>
           <tr ng-repeat='place in places.slice(0,3)'>
             <td>{{ place.venue.name }}</td>
-	    <td class="table-left">{{ place.votes }}</td>
+	          <td class="table-left">{{ place.votes }}</td>
+            <td class="table-left">{{ place.votes }}</td>
             <td class="table-left text-center">
               <input ng-model='selected.name' name="selected" type="radio" value="{{ place.venue.name }}">
             </td>

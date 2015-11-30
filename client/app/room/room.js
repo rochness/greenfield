@@ -39,6 +39,7 @@ angular.module('app.room', ['ngOpenFB'])
       $scope.roomDetails = roomInfo;
       if(roomInfo.venues.length !== 0) {
         $scope.places = roomInfo.venues;
+        console.log('did this get called?');
         $scope.venuesAdded = true;
       }
       console.log('roomDetails from serverData: ', $scope.roomDetails);
@@ -76,12 +77,17 @@ angular.module('app.room', ['ngOpenFB'])
     console.log('markers: ', $scope.map.markers);
     UserHelper.sendPrefs($scope.prefs)
     .then(function (businesses) {
-      $scope.places = businesses;
-
-      for (var i = 0; i < $scope.places.length; i++) {
-        $scope.places[i].votes = 0;
+      $scope.places = [];
+      for (var i = 0; i < businesses.slice(0,3).length; i++) {
+        var business = {venue:{}};
+        business.venue.name = businesses[i].venue.name;
+        business.venue.rating = businesses[i].venue.rating;
+        business.venue.location = businesses[i].venue.location;
+        business.venue.contact = businesses[i].venue.contact;
+        business.venue.url = businesses[i].venue.url;
+        business.votes = 0;
+        $scope.places.push(business);
       }
-
       // UserHelper.setVenues($scope.places);
       //emit data to server with roomName and venues
       socket.emit('venues', [$scope.roomName, $scope.places]);
@@ -104,9 +110,9 @@ angular.module('app.room', ['ngOpenFB'])
   };
 
   $scope.vote = function (){
-    // for(var i = 0; i < 3 ; i++) {
-    //   console.log($scope.places[i].votes);
-    // }
+    for(var i = 0; i < 3 ; i++) {
+      console.log($scope.places[i].votes);
+    }
     socket.emit('venueVote', [$scope.roomName, $scope.places]);
   };
 
