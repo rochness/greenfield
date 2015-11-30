@@ -94,7 +94,9 @@
 <div ng-hide="hideChoice" class="ng-hide col-md-11  col-md-offset-1" style="float: left">
   <br>
   <h2>You are meeting at:</h2>
-  {{ roomDetails.selectedVenue }}
+  <p>{{ roomDetails.selectedVenue.venue.name }} </p>
+  <p>{{ roomDetails.selectedVenue.venue.location.address}} </p>
+  <!-- <p> -->
 </div>
 <br>
 
