@@ -10,10 +10,7 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.user.isCreator = UserHelper.isCreator;
   $scope.roomDetails;
   $scope.hideBtn = true;
-
-  // $scope.roomCode = (parseInt(Math.random()*10000000)).toString();
-
-  $scope.intervalFunc;
+  $scope.venuesAdded = false;
 
   $scope.locationCheck = function () {
     console.log('locationCheck called');
@@ -41,6 +38,7 @@ angular.module('app.room', ['ngOpenFB'])
       $scope.roomDetails = roomInfo;
       if(roomInfo.venues.length !== 0) {
         $scope.places = roomInfo.venues;
+        $scope.venuesAdded = true;
       }
       console.log('roomDetails from serverData: ', $scope.roomDetails);
     });
@@ -68,10 +66,7 @@ angular.module('app.room', ['ngOpenFB'])
     }
     //tells server that user wants to join specified room
     socket.emit('init', $scope.roomName);
-    // $scope.intervalFunc = $interval($scope.locationCheck, 3000);
   };
-// }])
-// .controller('preferenceController', ['$scope', 'UserHelper', function ($scope, UserHelper) {
 
   $scope.prefs = {};
   $scope.send = function () {
@@ -86,7 +81,7 @@ angular.module('app.room', ['ngOpenFB'])
         $scope.places[i].votes = 0;
       }
 
-      UserHelper.setVenues($scope.places);
+      // UserHelper.setVenues($scope.places);
       //emit data to server with roomName and venues
       socket.emit('venues', [$scope.roomName, $scope.places]);
       console.log($scope.places);
@@ -96,10 +91,6 @@ angular.module('app.room', ['ngOpenFB'])
 
   $scope.$on('mapInitialized', function (event, map) {
     $scope.map = map;
-    // google.maps.event.addListener(map.markers[0], "dragend", function(event) {
-    //   console.log('marker moved: ', map.markers[0]);
-    // });
-
   });
 
  $scope.updatePosition = function (event) {
@@ -107,6 +98,13 @@ angular.module('app.room', ['ngOpenFB'])
     $scope.user.latitude = event.latLng.lat();
     $scope.user.longitude = event.latLng.lng();
     socket.emit('userData', [$scope.user, $scope.roomName]);
+  };
+
+  $scope.vote = function (){
+    // for(var i = 0; i < 3 ; i++) {
+    //   console.log($scope.places[i].votes);
+    // }
+    socket.emit('venueVote', [$scope.roomName, $scope.places]);
   };
 
   $scope.showInfoWindow = function (event, place) {

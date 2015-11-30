@@ -141,14 +141,14 @@ exports.removeUserFromRoom = function (user, roomName, cb) {
 };
 
 exports.updateOrCreateRoom = function (user, cb) {
-  console.log('user.roomName in update/createRoom util: ', user.roomName);
+  // console.log('user.roomName in update/createRoom util: ', user.roomName);
   Room.findOne({roomName: user.roomName}).exec(function(err, room) {
     if(err) {
       console.log('error finding room: ', err);
     } else {
       if(room === null){
         //create new room
-        console.log('room is null? ', user.roomName);
+        // console.log('room is null? ', user.roomName);
         var newRoom = Room({
           roomName: user.roomName,
           users: [user],
@@ -187,6 +187,47 @@ exports.addVenuesToRoom = function(roomAndVenues, cb) {
       console.log('error finding room: ', err);
   } else {
       room.venues = roomAndVenues[1];
+      room.save( function (err, room) {
+        if(err){
+          cb(err, room);
+        } else {
+          cb(err, room);
+        }
+      });
+    }
+  });
+};
+
+exports.updateVenues = function (roomAndVenues, cb) {
+  Room.findOne({roomName: roomAndVenues[0]}).exec(function(err, room) {
+    if(err) {
+      console.log('error finding room: ', err);
+  } else {
+      for (var i = 0; i < roomAndVenues[1]; i++) {
+        room.venues[i].votes += Number(roomAndVenues[1].votes); 
+      }
+      room.save( function (err, room) {
+        if(err){
+          cb(err, room);
+        } else {
+          cb(err, room);
+        }
+      });
+    }
+  });
+};
+
+exports.setSelectedVenue = function (roomAndSelection, cb) {
+  Room.findOne({roomName: roomAndSelection[0]}).exec(function(err, room) {
+    if(err) {
+      console.log('error finding room: ', err);
+  } else {
+      //find the venue object given the selection venue name from client side
+      for(var i = 0; i < room.venues.length; i++) {
+        if(room.venues[i].venue.name === roomAndSelection[1].name) {
+          room.selectedVenue = room.venues[i];
+        }
+      }
       room.save( function (err, room) {
         if(err){
           cb(err, room);

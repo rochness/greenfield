@@ -98,6 +98,31 @@ io.sockets.on('connection', function (socket) {
       });
     });
 
+    socket.on('venueVote', function (roomAndVenues) {
+      utils.updateVenues(roomAndVenues, function (err, updatedRoom) {
+        if(err) {
+          console.log('error adding venues to room');
+        } else {
+          io.sockets.in('/' + updatedRoom.roomName).emit('serverData', updatedRoom);
+          for(var i = 0; i < 3; i++) {
+            console.log(updatedRoom.venues[i].venue.name + 'votes: ' + updatedRoom.venues[i].votes);
+          }
+
+        }
+      });
+    });
+
+    socket.on('venueSelected', function (roomAndSelection) {
+      utils.setSelectedVenue(roomAndSelection, function (err, updatedRoom) {
+        if(err) {
+          console.log('error adding venues to room');
+        } else {
+          io.sockets.in('/' + updatedRoom.roomName).emit('serverData', updatedRoom);
+          console.log('room after venue selection: ', updatedRoom.venues);
+        }
+      });
+    });
+
     socket.on('logout', function (userInfo) {
       console.log('logout params: ', userInfo);
       utils.removeUserFromRoom(userInfo[0], userInfo[1], function (err, updatedRoom) {
@@ -105,7 +130,6 @@ io.sockets.on('connection', function (socket) {
           console.log('error removing user from room: ', err);
         } else {
           socket.emit('serverData', room);
-          // console.log('updated room: ', updatedRoom);
         }
       });
       socket.leave('/' + room);

@@ -5,7 +5,7 @@
     <li role="presentation"><a href='#/logout' ng-click='logOut(true)'>Logout</a></li>
   </ul>
 
-  <div class = 'col-md-10'>
+  <div class = 'col-md-8'>
   <h4>Group: {{roomName}}</h4>
     <ng-map class='room' default-style='true' center='current-location' zoom='14'>
       <marker ng-repeat='user in roomDetails.users' position='{{user.latitude}},{{user.longitude}}'
@@ -21,13 +21,21 @@
     </ng-map>
   </div>
 
-<!--
-  <div class="col-md-4" >
-    <h2>Group Choicez:</h2>
-    <h4>Place: {{ prefs.query }}</h4>
-    <h4>Price: {{ prefs.price }}</h4>
-    <h4>Rating: {{ prefs.rating }}</h4>
+
+  <div class="col-md-4" ng-if="venuesAdded">
+    <h3>Rank your preferences for where to meet </h3>
+    <form ng-submit="vote()">
+      <div ng-repeat='place in places.slice(0,3)'>
+        <select name="rank" ng-model="place.votes">
+          <option value="3">1</option>
+          <option value="2">2</option>
+          <option value="1">3</option>
+        </select>
+        <label>{{place.venue.name}} </label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
   </div>
--->
+
 
 </div>
