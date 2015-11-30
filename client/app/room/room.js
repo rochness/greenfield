@@ -10,6 +10,7 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.user.isCreator = UserHelper.isCreator;
   $scope.roomDetails;
   $scope.hideBtn = true;
+  $scope.venuesAdded = false;
 
   $scope.locationCheck = function () {
     console.log('locationCheck called');
@@ -37,6 +38,7 @@ angular.module('app.room', ['ngOpenFB'])
       $scope.roomDetails = roomInfo;
       if(roomInfo.venues.length !== 0) {
         $scope.places = roomInfo.venues;
+        $scope.venuesAdded = true;
       }
       console.log('roomDetails from serverData: ', $scope.roomDetails);
     });
@@ -79,7 +81,7 @@ angular.module('app.room', ['ngOpenFB'])
         $scope.places[i].votes = 0;
       }
 
-      UserHelper.setVenues($scope.places);
+      // UserHelper.setVenues($scope.places);
       //emit data to server with roomName and venues
       socket.emit('venues', [$scope.roomName, $scope.places]);
       console.log($scope.places);
@@ -96,6 +98,13 @@ angular.module('app.room', ['ngOpenFB'])
     $scope.user.latitude = event.latLng.lat();
     $scope.user.longitude = event.latLng.lng();
     socket.emit('userData', [$scope.user, $scope.roomName]);
+  };
+
+  $scope.vote = function (){
+    // for(var i = 0; i < 3 ; i++) {
+    //   console.log($scope.places[i].votes);
+    // }
+    socket.emit('venueVote', [$scope.roomName, $scope.places]);
   };
 
   $scope.showInfoWindow = function (event, place) {

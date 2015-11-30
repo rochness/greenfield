@@ -141,14 +141,14 @@ exports.removeUserFromRoom = function (user, roomName, cb) {
 };
 
 exports.updateOrCreateRoom = function (user, cb) {
-  console.log('user.roomName in update/createRoom util: ', user.roomName);
+  // console.log('user.roomName in update/createRoom util: ', user.roomName);
   Room.findOne({roomName: user.roomName}).exec(function(err, room) {
     if(err) {
       console.log('error finding room: ', err);
     } else {
       if(room === null){
         //create new room
-        console.log('room is null? ', user.roomName);
+        // console.log('room is null? ', user.roomName);
         var newRoom = Room({
           roomName: user.roomName,
           users: [user],
@@ -204,7 +204,7 @@ exports.updateVenues = function (roomAndVenues, cb) {
       console.log('error finding room: ', err);
   } else {
       for (var i = 0; i < roomAndVenues[1]; i++) {
-        room.venues[i].votes += roomAndVenues[1].votes; 
+        room.venues[i].votes += Number(roomAndVenues[1].votes); 
       }
       room.save( function (err, room) {
         if(err){
