@@ -79,18 +79,19 @@
           </tr>
           <tr ng-repeat='place in places.slice(0,3)'>
             <td>{{ place.venue.name }}</td>
-            <td class="table-left">{{ place.venue.votes }}</td>
+	    <td class="table-left">{{ place.votes }}</td>
             <td class="table-left text-center">
               <input ng-model='selected.name' name="selected" type="radio" value="{{ place.venue.name }}">
             </td>
           </tr>
         </table>
       </div>
-      <button type="submit" ng-hide="hideBtn" class="ng-hide btn btn-primary center-block" style="width: 15em">Submit Choice</button>
+      <button type="submit" ng-hide="!venuesAdded" class="ng-hide btn btn-primary center-block" style="width: 15em">Submit Choice</button>
     </form>
   </div>
 </div>
-<div class="col-md-12" style="float: left">
+<div ng-hide="hideChoice" class="ng-hide col-md-11  col-md-offset-1" style="float: left">
+  <br>
   <h2>You are meeting at:</h2>
   {{ roomDetails.selectedVenue }}
 </div>

@@ -94,3 +94,6 @@ span.glyphicon {
   height: 30em;
 }
 
+.mark {
+  display: none;
+}

@@ -11,6 +11,7 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.roomDetails;
   $scope.hideBtn = true;
   $scope.venuesAdded = false;
+  $scope.hideChoice = true;
 
   $scope.locationCheck = function () {
     console.log('locationCheck called');
@@ -86,7 +87,9 @@ angular.module('app.room', ['ngOpenFB'])
       socket.emit('venues', [$scope.roomName, $scope.places]);
       console.log($scope.places);
     });
-    $scope.hideBtn = false;
+    // if ($scope.venuesAdded) {
+    //   $scope.hideBtn = false;
+    // }
   };
 
   $scope.$on('mapInitialized', function (event, map) {
@@ -128,8 +131,8 @@ angular.module('app.room', ['ngOpenFB'])
 
   $scope.selected = {};
   $scope.choose = function () {
-    console.log('SELECTEDNAME ', $scope.selected.name);
     socket.emit('venueSelected', [$scope.selected, $scope.roomName]);
+    $scope.hideChoice = false;
   };
 }]);
 
