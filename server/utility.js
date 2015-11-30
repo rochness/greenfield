@@ -223,8 +223,8 @@ exports.setSelectedVenue = function (roomAndSelection, cb) {
       console.log('error finding room: ', err);
   } else {
       //find the venue object given the selection venue name from client side
-      for(var i = 0; i < room.venues.length; i ++) {
-        if(room.venues[i].venue.name === roomAndSelection[1]) {
+      for(var i = 0; i < room.venues.length; i++) {
+        if(room.venues[i].venue.name === roomAndSelection[1].name) {
           room.selectedVenue = room.venues[i];
         }
       }
