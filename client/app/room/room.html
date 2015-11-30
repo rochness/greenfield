@@ -5,8 +5,8 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
-	<li><a href='#/facebook' ng-click='logOut()'>Home</a></li>
-	<li><a href='#/logout' ng-click='logOut(true)'>Logout</a></li>
+        <li><a href='#/facebook' ng-click='logOut()'>Home</a></li>
+        <li><a href='#/logout' ng-click='logOut(true)'>Logout</a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
@@ -33,35 +33,35 @@
     <h2>Preferences</h2>
     <div class="col-md-12" style="float:left">
       <form ng-submit="send()">
-	<div class="col-md-6" style="float:left">
-	  <label>Place</label>
-	  <div class="radio">
-	    <label class="active">
-	      <input ng-model='prefs.query' name="query" type="radio" value="bar" checked="checked"> Bar
-	    </label>
-	  </div>
-	  <div class="radio">
-	    <label>
-	      <input ng-model='prefs.query' name="query" type="radio" value="coffee"> Coffee
-	    </label>
-	  </div>
-	  <div class="radio">
-	    <label>
-	      <input ng-model='prefs.query' name="query" type="radio" value="food"> Restaurant
-	    </label>
-	  </div>
+        <div class="col-md-6" style="float:left">
+          <label>Place</label>
+          <div class="radio">
+            <label class="active">
+              <input ng-model='prefs.query' name="query" type="radio" value="bar" checked="checked"> Bar
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input ng-model='prefs.query' name="query" type="radio" value="coffee"> Coffee
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input ng-model='prefs.query' name="query" type="radio" value="food"> Restaurant
+            </label>
+          </div>
         </div>
 
-	<div class="col-md-6" style="float:left">
-	  <label>Price</label>
-	  <select ng-model='prefs.price' class="form-control">
-	    <option value="1">$</option>
-	    <option value="2">$$</option>
-	    <option value="3">$$$</option>
-	    <option value="4">$$$$</option>
-	  </select>
-	  <br>
-	  <button type="submit" class="btn btn-primary">Show Results</button>
+        <div class="col-md-6" style="float:left">
+          <label>Price</label>
+          <select ng-model='prefs.price' class="form-control">
+            <option value="1">$</option>
+            <option value="2">$$</option>
+            <option value="3">$$$</option>
+            <option value="4">$$$$</option>
+          </select>
+          <br>
+          <button type="submit" class="btn btn-primary">Show Results</button>
         </div>
       </form>
     </div>
