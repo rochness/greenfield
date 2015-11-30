@@ -37,11 +37,16 @@ angular.module('app.room', ['ngOpenFB'])
     console.log('received serverData');
     $scope.$apply(function() {
       $scope.roomDetails = roomInfo;
+
       if(roomInfo.venues.length !== 0) {
         $scope.places = roomInfo.venues;
-        console.log('did this get called?');
         $scope.venuesAdded = true;
       }
+
+      if(roomInfo.selectedVenue) {
+        $scope.places = [roomInfo.selectedVenue];
+      }
+
       console.log('roomDetails from serverData: ', $scope.roomDetails);
     });
   });
@@ -110,9 +115,6 @@ angular.module('app.room', ['ngOpenFB'])
   };
 
   $scope.vote = function (){
-    for(var i = 0; i < 3 ; i++) {
-      console.log($scope.places[i].votes);
-    }
     socket.emit('venueVote', [$scope.roomName, $scope.places]);
   };
 
@@ -139,6 +141,7 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.choose = function () {
     socket.emit('venueSelected', [$scope.selected, $scope.roomName]);
     $scope.hideChoice = false;
+    socket.emit('venueSelected', [$scope.roomName, $scope.selected]);
   };
 }]);
 

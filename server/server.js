@@ -104,9 +104,6 @@ io.sockets.on('connection', function (socket) {
           console.log('error adding venues to room');
         } else {
           io.sockets.in('/' + updatedRoom.roomName).emit('serverData', updatedRoom);
-          for(var i = 0; i < 3; i++) {
-            console.log(updatedRoom.venues[i].venue.name + ' votes: ' + updatedRoom.venues[i].votes);
-          }
         }
       });
     });
