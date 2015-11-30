@@ -31,8 +31,8 @@
 
 
   <div class="col-md-4" ng-if="venuesAdded">
-    <h3>Rank your preferences for where to meet </h3>
-    <form ng-submit="vote()">
+    <h3>Rank where to meet </h3>
+    <form name="voteForm" ng-submit="vote()">
       <div ng-repeat='place in places.slice(0,3)'>
         <select name="rank" ng-model="place.votes">
           <option value="3">1</option>
@@ -41,7 +41,7 @@
         </select>
         <label>{{place.venue.name}} </label>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="voteForm.$invalid">Submit</button>
     </form>
   </div>
 </div>
