@@ -20,7 +20,7 @@
         class='mark' icon = {{user.userPic}} draggable="true" on-dragend="updatePosition()">
       </marker>
 
-      <marker ng-repeat='place in places.slice(0,3)'
+      <marker ng-repeat='place in placeMarkers.slice(0,3)'
         on-click="showInfoWindow(event, place)"
         position='{{place.venue.location.lat}},{{place.venue.location.lng}}'
         class='mark'
@@ -96,7 +96,6 @@
   <h2>You are meeting at:</h2>
   <p>{{ roomDetails.selectedVenue.venue.name }} </p>
   <p>{{ roomDetails.selectedVenue.venue.location.address}} </p>
-  <!-- <p> -->
 </div>
 <br>
 
