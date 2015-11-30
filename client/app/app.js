@@ -36,7 +36,7 @@ angular.module('app', [
       controller: 'RoomMakerController'
     })
     .when('/roomJoiner', {
-      templateUrl: 'app/roomJoiner/roomJoiner.html',
+      templateUrl: 'app/facebook/facebook.html',
       controller: 'RoomJoinerController'
     })
     .when('/logout', {

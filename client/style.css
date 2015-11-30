@@ -38,6 +38,7 @@ html, body {
 
 .icons {
   background-color: #2980b9;
+  text-shadow: 0px 0px 6px #022C47;
   height: 25%;
   color: white;
 }
@@ -59,7 +60,9 @@ html, body {
 }
 
 span.glyphicon {
-    font-size: 1.5em;
+  font-size: 1.5em;
+  text-shadow: 0px 0px 5px #022C47;
+  color: #f39c12;
 }
 
 .nav.navbar-nav.navbar-right li a {
@@ -67,7 +70,7 @@ span.glyphicon {
 }
 
 .nav.navbar-nav.navbar-right li a:hover {
-  color: #2980b9;
+  color: #114F78;
 }
 
 .nav.navbar-nav.navbar-right.room-nav li a {
@@ -96,4 +99,17 @@ span.glyphicon {
 
 .mark {
   display: none;
+}
+
+#facebook {
+  margin-top: 20em;
+}
+
+#facebook li a {
+  font-size: 28px;
+}
+
+#facebook li a:hover {
+  font-size: 28px;
+  text-shadow: 0px 0px 5px #8FBDDB;
 }
