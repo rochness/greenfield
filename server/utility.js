@@ -199,13 +199,18 @@ exports.addVenuesToRoom = function(roomAndVenues, cb) {
 };
 
 exports.updateVenues = function (roomAndVenues, cb) {
+  console.log('updateVenues called');
   Room.findOne({roomName: roomAndVenues[0]}).exec(function(err, room) {
     if(err) {
       console.log('error finding room: ', err);
   } else {
-      for (var i = 0; i < roomAndVenues[1]; i++) {
-        room.venues[i].votes += Number(roomAndVenues[1].votes); 
+      for (var i = 0; i < 3; i++) {
+        console.log('before adding vote, venue: ' + room.venues[i].venue.name + ' votes: ' + room.venues[i].votes);
+        room.venues[i].votes += Number(roomAndVenues[1][i].votes); 
+        console.log('adding: ', Number(roomAndVenues[1][i].votes));
+        console.log('after adding vote, venue: ' + room.venues[i].venue.name + ' votes: ' + room.venues[i].votes);
       }
+      room.markModified('venues');
       room.save( function (err, room) {
         if(err){
           cb(err, room);
