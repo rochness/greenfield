@@ -62,18 +62,35 @@ span.glyphicon {
     font-size: 1.5em;
 }
 
+.nav.navbar-nav.navbar-right li a {
+  color: #2980b9;
+}
+
 .nav.navbar-nav.navbar-right li a:hover {
   color: #2980b9;
 }
 
-.navbar.navbar-inverse.navbar-static-top li a {
+.nav.navbar-nav.navbar-right.room-nav li a {
   color: white;
 }
 
-.navbar.navbar-inverse.navbar-static-top li a:hover {
-  color: #001D30;
+.nav.navbar-nav.navbar-right.room-nav li a:hover {
+  color: #114F78;
 }
 
 .btn.btn-primary {
-  background-color: #2980b9;
+  background-color: #2980b9 !important;
 }
+
+.btn.btn-primary:hover {
+  background-color: #114F78 !important;
+}
+
+.table-left {
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.room {
+  height: 30em;
+}
+

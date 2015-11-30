@@ -9,6 +9,7 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.user.longitude = '';
   $scope.user.isCreator = UserHelper.isCreator;
   $scope.roomDetails;
+  $scope.hideBtn = true;
 
   // $scope.roomCode = (parseInt(Math.random()*10000000)).toString();
 
@@ -42,7 +43,6 @@ angular.module('app.room', ['ngOpenFB'])
         $scope.places = roomInfo.venues;
       }
       console.log('roomDetails from serverData: ', $scope.roomDetails);
-
     });
   });
 
@@ -81,11 +81,17 @@ angular.module('app.room', ['ngOpenFB'])
     UserHelper.sendPrefs($scope.prefs)
     .then(function (businesses) {
       $scope.places = businesses;
+
+      for (var i = 0; i < $scope.places.length; i++) {
+        $scope.places[i].votes = 0;
+      }
+
       UserHelper.setVenues($scope.places);
       //emit data to server with roomName and venues
       socket.emit('venues', [$scope.roomName, $scope.places]);
       console.log($scope.places);
     });
+    $scope.hideBtn = false;
   };
 
   $scope.$on('mapInitialized', function (event, map) {
@@ -122,5 +128,10 @@ angular.module('app.room', ['ngOpenFB'])
     infowindow.open($scope.map);
   };
 
+  $scope.selected = {};
+  $scope.choose = function () {
+    console.log('SELECTEDNAME ', $scope.selected.name);
+    socket.emit('venueSelected', [$scope.selected, $scope.roomName]);
+  };
 }]);
 

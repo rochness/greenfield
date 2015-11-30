@@ -4,7 +4,7 @@
       <p class="brand">converge<img src="converge.png" style="width:40px; height: 40px"/></p>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right room-nav">
         <li><a href='#/facebook' ng-click='logOut()'>Home</a></li>
         <li><a href='#/logout' ng-click='logOut(true)'>Logout</a></li>
       </ul>
@@ -12,10 +12,10 @@
   </div>
 </nav>
 
-<div class="container" ng-init='init()'>
+<div class="roomcontainer" ng-init='init()'>
   <div class = 'col-md-5 col-md-offset-1'>
   <h4>Group: {{roomName}}</h4>
-    <ng-map class='room' default-style='true' center='current-location' zoom='14'>
+    <ng-map class='room' center='current-location' zoom='14'>
       <marker ng-repeat='user in roomDetails.users' position='{{user.latitude}},{{user.longitude}}'
         class='mark' icon = {{user.userPic}} draggable="true" on-dragend="updatePosition()">
       </marker>
@@ -61,18 +61,45 @@
             <option value="4">$$$$</option>
           </select>
           <br>
-          <button type="submit" class="btn btn-primary">Show Results</button>
+          <button type="submit" class="btn btn-primary btn-block">Show Results</button>
         </div>
       </form>
     </div>
   </div>
+  <div class="col-md-5" style="float:left">
+    <br>
+    <form ng-submit="choose()">
+      <div class="panel panel-default">
+        <div class="panel-heading">Group Thoughts</div>
+        <table class="table">
+          <tr>
+            <th>Venue</th>
+            <th>Votes</th>
+            <th>Meet Here</th>
+          </tr>
+          <tr ng-repeat='place in places.slice(0,3)'>
+            <td>{{ place.venue.name }}</td>
+            <td class="table-left">{{ place.venue.votes }}</td>
+            <td class="table-left text-center">
+              <input ng-model='selected.name' name="selected" type="radio" value="{{ place.venue.name }}">
+            </td>
+          </tr>
+        </table>
+      </div>
+      <button type="submit" ng-hide="hideBtn" class="ng-hide btn btn-primary center-block" style="width: 15em">Submit Choice</button>
+    </form>
+  </div>
+</div>
+<div class="col-md-12" style="float: left">
+  <h2>You are meeting at:</h2>
+  {{ roomDetails.selectedVenue }}
 </div>
 <br>
 
 <div id="footer" class="container">
   <nav class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="navbar-inner text-center small" style="margin-top:1.5em; color: #8FBDDB">
-      © 2015 Emerald Mopeds
+      © 2015 Emerald Mopeds | icon by Alex Kwa
     </div>
   </nav>
 </div>
