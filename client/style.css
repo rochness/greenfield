@@ -1,13 +1,5 @@
-.jumbotron {
-  color: black;
-  font-family: 'Lobster', cursive;
-  font-size: 80px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 300;
-  padding: 20px;
-  line-height: 26.3999996185303px;
-  text-align: center;
+html, body {
+  height: 100%;
 }
 
 .picture {
@@ -15,31 +7,73 @@
   width: 10em;
 }
 
-.navbar .nav li > a:hover {
-  background-color: #346392;
-  border-radius: 5px;
+.navbar.navbar-inverse {
+  background-color: #2980b9;
+  border: none;
 }
 
-.navbar .nav li > a:active {
-  background-color: #27496d;
-  border-radius: 5px;
+.navbar.navbar-inverse.clear {
+  background-color: #FFFFFF;
+  border: none;
 }
 
-.nav li {
-  display: inline;
-  margin: 10px;
-  border-radius: 5px;
-  wide: 80%;
-  background-color: #6496c8;
+.nav.navbar-nav.navbar-right {
+  margin-top: 5px;
 }
 
-.nav {
-  text-align: center;
+.brand {
+  color: #FFFFFF;
+  font-size: 26px;
+  margin-top: 10px;
 }
 
-.nav li a {
-  font-size: 30px;
-  font-family: 'Lato', sans-serif;
-  font-weight: 700;
+.brand2 {
+  color: #2980b9;
+}
+
+#home {
+  height: 100%;
+  margin-top: -2em;
+}
+
+.icons {
+  background-color: #2980b9;
+  height: 25%;
   color: white;
+}
+
+.splash {
+  background: url('group.jpg') 50% 30% no-repeat;
+  background-size: cover;
+  height: 43em;
+}
+
+.tagline {
+  font-size: 48px;
+  letter-spacing: 2px;
+  color: #E8F6FF !important;
+  font-weight: bold !important;
+  margin-top: 8em;
+  text-align: center;
+  text-shadow: 0px 2px 5px #022C47;
+}
+
+span.glyphicon {
+    font-size: 1.5em;
+}
+
+.nav.navbar-nav.navbar-right li a:hover {
+  color: #2980b9;
+}
+
+.navbar.navbar-inverse.navbar-static-top li a {
+  color: white;
+}
+
+.navbar.navbar-inverse.navbar-static-top li a:hover {
+  color: #001D30;
+}
+
+.btn.btn-primary {
+  background-color: #2980b9;
 }
