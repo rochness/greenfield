@@ -81,7 +81,7 @@ io.sockets.on('connection', function (socket) {
                 // console.log('emiting serverData after receiving userData', room.roomName);
               }
             });
-          }       
+          }
         });
       }
     });
