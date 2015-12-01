@@ -5,7 +5,7 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
-	<li><a href='#/facebook' ng-click='logOut()'>Home</a></li>
+        <li><a href='#/facebook' ng-click='logOut()'>Home</a></li>
         <li><a href='#/logout' ng-click='logout()' class='logout'>Logout</a></li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -16,11 +16,11 @@
   <div class='navbar col-md-4 col-md-offset-4'>
     <div class='nav text-center'>
       <li><a href='#/room' ng-controller="RoomMakerController"
-	class='new' ng-click='setup()'>Create a new group</a></li>
+        class='new' ng-click='setup()'>Create a new group</a></li>
 
       <div>
-	<li><p ng-click='showJoin()'
-	  class='create'>Join an existing group</p></li>
+        <li><p ng-click='showJoin()'
+          class='create'>Join an existing group</p></li>
 
         <form name='roomJoin' ng-hide='hideJoin'
           ng-submit='setRoom()' class='ng-hide col-md-12' novalidate>

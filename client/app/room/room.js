@@ -50,11 +50,11 @@ angular.module('app.room', ['ngOpenFB'])
 
       if(roomInfo.selectedVenue) {
         $scope.placeMarkers = [roomInfo.selectedVenue];
-	$scope.hideChoice = false;
+        $scope.hideChoice = false;
       }
 
       if(roomInfo.venues[0].votes !== 0) {
-	$scope.chooseDisabled = false;
+        $scope.chooseDisabled = false;
       }
 
       console.log('roomDetails from serverData: ', $scope.roomDetails);
