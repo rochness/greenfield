@@ -12,6 +12,9 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.hideBtn = true;
   $scope.venuesAdded = false;
   $scope.hideChoice = true;
+  $scope.isDisabled = false;
+  $scope.resultsDisabled = false;
+  $scope.chooseDisabled = true;
 
   $scope.locationCheck = function () {
     console.log('locationCheck called');
@@ -47,6 +50,11 @@ angular.module('app.room', ['ngOpenFB'])
 
       if(roomInfo.selectedVenue) {
         $scope.placeMarkers = [roomInfo.selectedVenue];
+	$scope.hideChoice = false;
+      }
+
+      if(roomInfo.venues[0].votes !== 0) {
+	$scope.chooseDisabled = false;
       }
 
       console.log('roomDetails from serverData: ', $scope.roomDetails);
@@ -100,6 +108,8 @@ angular.module('app.room', ['ngOpenFB'])
       //emit data to server with roomName and venues
       socket.emit('venues', [$scope.roomName, $scope.places]);
       console.log($scope.places);
+    }).then(function () {
+      $scope.resultsDisabled = true;
     });
     // if ($scope.venuesAdded) {
     //   $scope.hideBtn = false;
@@ -119,6 +129,7 @@ angular.module('app.room', ['ngOpenFB'])
 
   $scope.vote = function (){
     socket.emit('venueVote', [$scope.roomName, $scope.places]);
+    $scope.isDisabled = true;
   };
 
   $scope.canDrag = function(roomUser) {
