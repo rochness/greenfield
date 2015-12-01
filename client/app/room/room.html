@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse navbar-static-top">
   <div class="container">
     <div class="navbar-header">
-      <p class="brand">converge<img src="converge.png" style="width:40px; height: 40px"/></p>
+      <p class="brand">converge<img src="converge4.png" style="width:40px; height: 40px"/></p>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right room-nav">
@@ -30,7 +30,7 @@
   </div>
 
   <div class="col-md-5" >
-    <h2>Preferences</h2>
+    <h2>Venue Preferences:</h2>
     <div class="col-md-12" style="float:left">
       <form ng-submit="send()">
         <div class="col-md-6" style="float:left">
@@ -61,7 +61,7 @@
             <option value="4">$$$$</option>
           </select>
           <br>
-          <button type="submit" class="btn btn-primary btn-block">Show Results</button>
+          <button type="submit" ng-disabled="resultsDisabled" class="btn btn-primary btn-block">Show Results</button>
         </div>
       </form>
     </div>
@@ -79,14 +79,15 @@
           </tr>
           <tr ng-repeat='place in places.slice(0,3)'>
             <td>{{ place.venue.name }}</td>
-	          <td class="table-left">{{ place.votes }}</td>
+            <td class="table-left">{{ place.votes }}</td>
             <td class="table-left text-center">
               <input ng-model='selected.name' name="selected" type="radio" value="{{ place.venue.name }}">
             </td>
           </tr>
         </table>
       </div>
-      <button type="submit" ng-hide="!venuesAdded" class="ng-hide btn btn-primary center-block" style="width: 15em">Submit Choice</button>
+      <button type="submit" ng-disabled="chooseDisabled"
+        class="btn btn-primary center-block" style="width: 15em">Submit Choice</button>
     </form>
   </div>
 </div>
