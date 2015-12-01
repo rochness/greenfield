@@ -6,7 +6,7 @@ var utils = require('./utility');
 var db = require('./db/database');
 var Room = require('./db/models/roomModel');
 var User = require('./db/models/userModel');
-var http = require("http");
+var http = require('http');
 
 
 // foursquare setup
@@ -136,6 +136,7 @@ io.sockets.on('connection', function (socket) {
 // });
 
 setInterval(function() {
+  console.log(PING);
   http.get("http://converge-app.herokuapp.com");
 }, 30000);
 
