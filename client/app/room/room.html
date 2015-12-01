@@ -20,7 +20,7 @@
         class='mark' icon = {{user.userPic}} draggable="true" on-dragend="updatePosition()">
       </marker>
 
-      <marker ng-repeat='place in places.slice(0,3)'
+      <marker ng-repeat='place in placeMarkers.slice(0,3)'
         on-click="showInfoWindow(event, place)"
         position='{{place.venue.location.lat}},{{place.venue.location.lng}}'
         class='mark'
@@ -79,7 +79,8 @@
           </tr>
           <tr ng-repeat='place in places.slice(0,3)'>
             <td>{{ place.venue.name }}</td>
-	    <td class="table-left">{{ place.votes }}</td>
+	          <td class="table-left">{{ place.votes }}</td>
+            <td class="table-left">{{ place.votes }}</td>
             <td class="table-left text-center">
               <input ng-model='selected.name' name="selected" type="radio" value="{{ place.venue.name }}">
             </td>
@@ -93,7 +94,8 @@
 <div ng-hide="hideChoice" class="ng-hide col-md-11  col-md-offset-1" style="float: left">
   <br>
   <h2>You are meeting at:</h2>
-  {{ roomDetails.selectedVenue }}
+  <p>{{ roomDetails.selectedVenue.venue.name }} </p>
+  <p>{{ roomDetails.selectedVenue.venue.location.address}} </p>
 </div>
 <br>
 
