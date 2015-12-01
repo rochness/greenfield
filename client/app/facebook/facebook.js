@@ -18,7 +18,7 @@ angular.module('app.facebook', ['ngOpenFB'])
       $openFB.logout();
     };
 
-    $openFB.init({appId: '909462752470016'}); // theirs: 909462752470016 / ours: 1618252011782684 / test: 1861162570794799
+    $openFB.init({appId: '1618252011782684'}); // theirs: 909462752470016 / ours: 1618252011782684 / test: 1861162570794799
 
     $openFB.login({scope: 'email, user_friends'})
     .then(function (res) {
