@@ -56,6 +56,10 @@ app.post('/api/search', function (req, res, next) {
 });
 
 io.sockets.on('connection', function (socket) {
+  var id = setInterval(function() {
+    socket.send(JSON.stringify(new Date()), function() {  })
+  }, 1000);
+
   socket.on('init', function (room) {
     socket.join('/' + room);
     socket.emit('joinedRoom', room);
@@ -129,16 +133,13 @@ io.sockets.on('connection', function (socket) {
           socket.emit('serverData', room);
         }
       });
+      console.log("websocket connection closed");
+      clearInterval(id);
       socket.leave('/' + room);
     });
 
   });
 // });
-
-setInterval(function() {
-  console.log(PING);
-  http.get("http://converge-app.herokuapp.com");
-}, 30000);
 
 
 module.exports = app;
