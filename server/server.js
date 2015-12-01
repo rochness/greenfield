@@ -6,6 +6,7 @@ var utils = require('./utility');
 var db = require('./db/database');
 var Room = require('./db/models/roomModel');
 var User = require('./db/models/userModel');
+require('newrelic');
 
 
 // foursquare setup
