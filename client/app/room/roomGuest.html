@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse navbar-static-top">
   <div class="container">
     <div class="navbar-header">
-      <p class="brand">converge<img src="converge.png" style="width:40px; height: 40px"/></p>
+      <p class="brand">converge<img src="converge4.png" style="width:40px; height: 40px"/></p>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right room-nav">
@@ -31,26 +31,33 @@
 
 
   <div class="col-md-4" ng-if="venuesAdded">
-    <h3>Rank where to meet </h3>
+    <h2>Rank venue options: </h2>
+    <br>
     <form name="voteForm" ng-submit="vote()">
-      <div ng-repeat='place in places.slice(0,3)'>
+      <div ng-repeat='place in places.slice(0,3)' style="margin-bottom: .5em">
         <select name="rank" ng-model="place.votes">
           <option value="3">1</option>
           <option value="2">2</option>
           <option value="1">3</option>
         </select>
         <label>{{place.venue.name}} </label>
+        <br>
       </div>
-      <button type="submit" class="btn btn-primary" ng-disabled="voteForm.$invalid">Submit</button>
+      <br>
+      <button type="submit" class="btn btn-primary" style="width: 12em" ng-disabled="isDisabled">Submit</button>
     </form>
+    <br>
+    <br>
+    <div ng-hide="hideChoice" class="ng-hide">
+      <h2 style="margin-bottom: .5em">You are meeting at:</h2>
+      <h4>{{ roomDetails.selectedVenue.venue.name }} </h4>
+      <p>{{ roomDetails.selectedVenue.venue.location.address}} </p>
+    </div>
   </div>
 </div>
 
-<div class="col-md-12" style="float: left">
-  <h2>You are meeting at:</h2>
-  <p>{{ roomDetails.selectedVenue.venue.name }} </p>
-  <p>{{ roomDetails.selectedVenue.venue.location.address}} </p>
-</div>
+
+<br>
 
 <div id="footer" class="container">
   <nav class="navbar navbar-inverse navbar-fixed-bottom">
