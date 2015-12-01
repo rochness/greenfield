@@ -1,6 +1,18 @@
 angular.module('app.facebook', ['ngOpenFB'])
 .controller('FacebookController', ['$scope', '$openFB', 'UserHelper', '$location', function ($scope, $openFB, UserHelper, $location) {
     $scope.me = {};
+    $scope.hideJoin = true;
+
+    $scope.showJoin = function () {
+      $scope.hideJoin = false;
+      console.log("CALLED ", $scope.hideJoin)
+    };
+
+    $scope.setRoom= function () {
+      UserHelper.getRoom($scope.roomName);
+      UserHelper.isCreator = false;
+      $location.path('/roomGuest');
+    };
 
     $scope.logout = function () {
       $openFB.logout();
