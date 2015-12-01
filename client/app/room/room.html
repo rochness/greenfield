@@ -16,8 +16,8 @@
   <div class = 'col-md-5 col-md-offset-1'>
   <h4>Group: {{roomName}}</h4>
     <ng-map class='room' center='current-location' zoom='14'>
-      <marker ng-repeat='user in roomDetails.users' position='{{user.latitude}},{{user.longitude}}'
-        class='mark' icon = {{user.userPic}} draggable="true" on-dragend="updatePosition()">
+      <marker ng-repeat='roomUser in roomDetails.users' position='{{roomUser.latitude}},{{roomUser.longitude}}'
+        class='mark' icon = {{roomUser.userPic}} draggable="{{roomUser._id === user.id}}" on-dragend="updatePosition()">
       </marker>
 
       <marker ng-repeat='place in placeMarkers.slice(0,3)'
@@ -80,7 +80,6 @@
           <tr ng-repeat='place in places.slice(0,3)'>
             <td>{{ place.venue.name }}</td>
 	          <td class="table-left">{{ place.votes }}</td>
-            <td class="table-left">{{ place.votes }}</td>
             <td class="table-left text-center">
               <input ng-model='selected.name' name="selected" type="radio" value="{{ place.venue.name }}">
             </td>

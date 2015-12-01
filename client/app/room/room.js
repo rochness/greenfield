@@ -36,6 +36,7 @@ angular.module('app.room', ['ngOpenFB'])
   socket.on('serverData', function (roomInfo) {
     console.log('received serverData');
     $scope.$apply(function() {
+
       $scope.roomDetails = roomInfo;
 
       if(roomInfo.venues.length !== 0) {
@@ -119,6 +120,16 @@ angular.module('app.room', ['ngOpenFB'])
   $scope.vote = function (){
     socket.emit('venueVote', [$scope.roomName, $scope.places]);
   };
+
+  $scope.canDrag = function(roomUser) {
+    console.log('roomUser: ', roomUser);
+    console.log('user: ', $scope.user);
+    if(roomUser.id === $scope.user.id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   $scope.showInfoWindow = function (event, place) {
     var infowindow = new google.maps.InfoWindow();
