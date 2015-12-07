@@ -1,5 +1,5 @@
 html, body {
-  height: 100%;
+
 }
 
 .picture {
@@ -44,9 +44,11 @@ html, body {
 }
 
 .splash {
-  background: url('group.jpg') 50% 30% no-repeat;
+  background: url('group3.jpg') 50% 30% no-repeat;
   background-size: cover;
   height: 43em;
+  width: 102%;
+  position: absolute;
 }
 
 .tagline {
@@ -124,4 +126,13 @@ span.glyphicon {
 
 .create:hover {
   color: #E74C3C;
+}
+
+.teal {
+  background-color: #2980b9;
+  position: absolute;
+  top: 43em;
+  width: 100%;
+  bottom: 0;
+  height: auto;
 }
