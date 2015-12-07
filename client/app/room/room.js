@@ -152,7 +152,8 @@ angular.module('app.room', ['ngOpenFB'])
     var url = place.venue.url || '';
 
     infowindow.setContent(
-      '<h5 class="name">' + name + ' // ' + rating +'</h5>' +
+      '<h5 class="name">' + name + ' // </h5>' +
+      '<p class="rating">Foursquare Rating: ' + rating + '</p>' +
       '<p class="address">' + address + '</p>' +
       '<p class="phone">' + phone + '</p>' +
       '<a class="link" href="' + url +'">' + url + '</p>');
